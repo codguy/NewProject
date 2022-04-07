@@ -1,5 +1,4 @@
 <?php
-
 namespace app\models;
 
 use Yii;
@@ -27,7 +26,29 @@ use yii\web\IdentityInterface;
  */
 class Users extends \yii\db\ActiveRecord implements IdentityInterface
 {
+
+    const ROLE_ADMIN = 1;
+
+    const ROLE_MANAGER = 2;
+
+    const ROLE_STAFF = 3;
+
+    const ROLE_STUDENT = 4;
+
+    const ROLE_PARENT = 5;
+
+    const STATE_ACTIVE = 1;
+
+    const STATE_INACTIVE = 2;
+
+    const STATE_FREEZE = 3;
+
+    const STATE_DELETED = 4;
+
+    const STATE_UPCOMING = 5;
+
     /**
+     *
      * {@inheritdoc}
      */
     public static function tableName()
@@ -36,23 +57,74 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['username', 'email', 'password', 'roll_id', 'state_id', 'authKey', 'accessToken'], 'required'],
-            [['roll_id', 'state_id'], 'integer'],
-            [['dob', 'created_on', 'updated_on'], 'safe'],
-            [['created_by_id'], 'string'],
-            [['username', 'email'], 'string', 'max' => 25],
-            [['password'], 'string', 'max' => 30],
-            [['authKey', 'accessToken', 'gender'], 'string', 'max' => 10],
-            [['profile_picture'], 'string', 'max' => 50],
+            [
+                [
+                    'username',
+                    'email',
+                    'password'
+                ],
+                'required'
+            ],
+            [
+                [
+                    'roll_id',
+                    'state_id',
+                    'created_by_id'
+                ],
+                'integer'
+            ],
+            [
+                [
+                    'dob',
+                    'created_on',
+                    'updated_on'
+                ],
+                'safe'
+            ],
+            [
+                [
+                    'username',
+                    'email'
+                ],
+                'string',
+                'max' => 25
+            ],
+            [
+                [
+                    'password'
+                ],
+                'string',
+                'max' => 30
+            ],
+            [
+                [
+                    'authKey',
+                    'accessToken',
+                    'gender'
+                ],
+                'string',
+                'max' => 10
+            ],
+
+            [
+                [
+                    'profile_picture'
+                ],
+                'file',
+                'skipOnEmpty' => true,
+                'extensions' => 'jpg, png'
+            ]
         ];
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function attributeLabels()
@@ -71,7 +143,7 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
             'profile_picture' => 'Profile Picture',
             'created_on' => 'Created On',
             'created_by_id' => 'Created By ID',
-            'updated_on' => 'Updated On',
+            'updated_on' => 'Updated On'
         ];
     }
 
@@ -82,84 +154,173 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
      */
     public function getTblDepts()
     {
-        return $this->hasOne(TblDept::className(), ['created_by_id' => 'id']);
+        return $this->hasOne(Dept::className(), [
+            'created_by_id' => 'id'
+        ]);
     }
-    
+
     /**
+     *
      * @inheritdoc
      */
-    public static function findIdentity($id) {
-        $user = self::find()
-        ->where([
+    public static function findIdentity($id)
+    {
+        $user = self::find()->where([
             "id" => $id
-        ])
-        ->one();
-//         if (!count($user)) {
-//             return null;
-//         }
+        ])->one();
+        // if (!count($user)) {
+        // return null;
+        // }
         return new static($user);
     }
-    
+
     /**
+     *
      * @inheritdoc
      */
-    public static function findIdentityByAccessToken($token, $userType = null) {
-        
-        $user = self::find()
-        ->where(["accessToken" => $token])
-        ->one();
-        if (!count($user)) {
+    public static function findIdentityByAccessToken($token, $userType = null)
+    {
+        $user = self::find()->where([
+            "accessToken" => $token
+        ])->one();
+        if (! count($user)) {
             return null;
         }
         return new static($user);
     }
-    
+
     /**
      * Finds user by username
      *
-     * @param  string      $username
+     * @param string $username
      * @return static|null
      */
-    public static function findByEmail($email) {
-        $user = self::find()
-        ->where([
+    public static function findByEmail($email)
+    {
+        $user = self::find()->where([
             "email" => $email
-        ])
-        ->one();
-//         if (empty($user)) {
-//             return null;
-//         }
+        ])->one();
+        // if (empty($user)) {
+        // return null;
+        // }
         return new static($user);
     }
-    
+
     /**
+     *
      * @inheritdoc
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
-    
+
     /**
+     *
      * @inheritdoc
      */
-    public function getAuthKey() {
+    public function getAuthKey()
+    {
         return $this->authKey;
     }
-    
+
     /**
+     *
      * @inheritdoc
      */
-    public function validateAuthKey($authKey) {
+    public function validateAuthKey($authKey)
+    {
         return $this->authKey === $authKey;
     }
-    
+
     /**
      * Validates password
      *
-     * @param  string  $password password to validate
+     * @param string $password
+     *            password to validate
      * @return boolean if password provided is valid for current user
      */
-    public function validatePassword($password) {
+    public function validatePassword($password)
+    {
         return $this->password === $password;
     }
+
+    public function getImageUrl()
+    {
+        if (! empty($this->profile_picture)) {
+            return Yii::$app->request->baseUrl . '/../uploads/' . $this->profile_picture;
+        } else {
+            return Yii::$app->request->baseUrl . '/images/user-icon.png';
+        }
+    }
+
+    public function getImage()
+    {
+        $img = '<img src=' . $this->getImageUrl() . ' height="60px" width="60px" class="profile_pic">';
+        return $img;
+    }
+
+    // public function imageName()
+    // {
+    // return str_replace(" ", "_", $this->profile_picture->baseName) . '.' . $this->profile_picture->extension;
+    // }
+    public function upload()
+    {
+        if ($this->validate(false)) {
+            if (! empty($this->profile_picture)) {
+                $this->profile_picture->saveAs('../uploads/' . str_replace(" ", "_", $this->profile_picture->baseName) . '.' . $this->profile_picture->extension);
+                return true;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    public function getRoleOption()
+    {
+        $list = array(
+            Users::ROLE_ADMIN => 'Admin',
+            Users::ROLE_MANAGER => 'Manager',
+            Users::ROLE_STAFF => 'Staff',
+            Users::ROLE_STUDENT => 'Student',
+            Users::ROLE_PARENT => 'Parent'
+        );
+        return $list;
+    }
+
+    public function getRole($id)
+    {
+        $list = $this->getRoleOption();
+        return $list[$id];
+    }
+
+    public function getStateOption()
+    {
+        $list = array(
+            Users::STATE_ACTIVE => 'Active',
+            Users::STATE_INACTIVE => 'Inactive',
+            Users::STATE_FREEZE => 'Freezed',
+            Users::STATE_DELETED => 'Deleted',
+            Users::STATE_UPCOMING => 'Upcoming'
+        );
+        return $list;
+    }
+
+    public function getState($id)
+    {
+        $list = $this->getStateOption();
+        return $list[$id];
+    }
+
+    public function getTableProfile($model)
+    {
+        $profile = $model->getImage() . " " . $model->username;
+        return $profile;
+    }
+    
+    public function getName()
+    {
+        return $this->username;
+    }
+    
 }
