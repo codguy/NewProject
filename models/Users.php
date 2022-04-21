@@ -31,11 +31,9 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
 
     const ROLE_MANAGER = 2;
 
-    const ROLE_STAFF = 3;
+    const ROLE_TRAINER = 3;
 
     const ROLE_STUDENT = 4;
-
-    const ROLE_PARENT = 5;
 
     const STATE_ACTIVE = 1;
 
@@ -281,9 +279,8 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
         $list = array(
             Users::ROLE_ADMIN => 'Admin',
             Users::ROLE_MANAGER => 'Manager',
-            Users::ROLE_STAFF => 'Staff',
-            Users::ROLE_STUDENT => 'Student',
-            Users::ROLE_PARENT => 'Parent'
+            Users::ROLE_TRAINER => 'Trainer',
+            Users::ROLE_STUDENT => 'Student'
         );
         return $list;
     }
@@ -321,6 +318,18 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
     public function getName()
     {
         return $this->username;
+    }
+    
+    public function getBadge($id)
+    {
+        $list = array(
+            Users::STATE_ACTIVE => 'success',
+            Users::STATE_INACTIVE => 'danger',
+            Users::STATE_FREEZE => 'primary',
+            Users::STATE_UPCOMING => 'info',
+            Users::STATE_DELETED => 'dark',
+        );
+        return $list[$id];
     }
     
 }

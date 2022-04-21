@@ -1,49 +1,77 @@
 <?php
-
-/** @var yii\web\View $this */
-/** @var yii\bootstrap4\ActiveForm $form */
-/** @var app\models\LoginForm $model */
-
+use yii\helpers\Html;
 use yii\bootstrap4\ActiveForm;
-use yii\bootstrap4\Html;
-
-$this->title = 'Login';
-$this->params['breadcrumbs'][] = $this->title;
+use app\models\search\Users;
 ?>
-<div class="site-login">
-    <h1><?= Html::encode($this->title) ?></h1>
+<main class="d-flex w-100">
+	<div class="container d-flex flex-column">
+		<div class="col-sm-10 col-md-8 col-lg-6 mx-auto d-table h-100">
+			<div class="d-table-cell align-middle">
 
-    <p>Please fill out the following fields to login:</p>
+				<div class="text-center mt-4">
+					<h1 class="h2">Welcome back</h1>
+					<p class="lead">Sign in to your account to continue</p>
+				</div>
 
-    <?php $form = ActiveForm::begin([
-        'id' => 'login-form',
-        'layout' => 'horizontal',
-        'fieldConfig' => [
-            'template' => "{label}\n{input}\n{error}",
-            'labelOptions' => ['class' => 'col-lg-1 col-form-label mr-lg-3'],
-            'inputOptions' => ['class' => 'col-lg-3 form-control'],
-            'errorOptions' => ['class' => 'col-lg-7 invalid-feedback'],
-        ],
-    ]); ?>
+				<div class="card">
+					<div class="card-body">
+						<div class="m-sm-4">
+							<div class="text-center">
+							<?php $user = new Users()?>
+								<img src="<?= $user->getImageUrl() ?>"
+									class="img-fluid rounded-circle" width="132" height="132" />
+							</div>
+                            <?php $form = ActiveForm::begin([
+                                'id' => 'login-form',
+                                // 'layout' => 'horizontal',
+                                'fieldConfig' => [
+                                    'template' => "{label}\n{input}\n{error}",
+                                    'labelOptions' => [
+                                        'class' => 'form-label'
+                                    ],
+                                    'inputOptions' => [
+                                        'class' => 'form-control form-control-lg'
+                                    ],
+                                    'errorOptions' => [
+                                        'class' => 'col-lg-7 invalid-feedback'
+                                    ]
+                                ]
+                            ]);
+                            ?>
 
-        <?= $form->field($model, 'email')->textInput(['autofocus' => true]) ?>
+							<!-- 											<label class="form-label">Email</label> -->
+							<!-- 											<input class="form-control form-control-lg" type="email" name="email" placeholder="Enter your email" /> -->
+							<?= $form->field($model, 'email')->textInput(['autofocus' => true]) ?>
 
-        <?= $form->field($model, 'password')->passwordInput() ?>
 
-        <?= $form->field($model, 'rememberMe')->checkbox([
-            'template' => "<div class=\"offset-lg-1 col-lg-3 custom-control custom-checkbox\">{input} {label}</div>\n<div class=\"col-lg-8\">{error}</div>",
-        ]) ?>
+							<div class="mb-3">
+								<!-- 											<label class="form-label">Password</label> -->
+								<!-- 											<input class="form-control form-control-lg" type="password" name="password" placeholder="Enter your password" /> -->
+        					<?= $form->field($model, 'password')->passwordInput() ?>
 
-        <div class="form-group">
-            <div class="offset-lg-1 col-lg-11">
-                <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
-            </div>
-        </div>
+								<small> <a href="index.html" class="float-right">Forgot password?</a>
+								</small>
+							</div>
+							<div>
+											<?=$form->field($model, 'rememberMe')->checkbox(['template' => "<div class=\"offset-lg-1 col-lg-3 custom-control custom-checkbox\">{input} {label}</div>\n<div class=\"col-lg-8\">{error}</div>"])?>
+										</div>
+							<div class="text-center mt-3">
+								<!-- 											<a href="index.html" class="btn btn-lg btn-primary">Sign in</a> -->
+								<!-- <button type="submit" class="btn btn-lg btn-primary">Sign in</button> -->
+								<div class="form-group">
+									<div class="offset-lg-1 col-lg-11">
+                                        <?= Html::submitButton('Sign up', ['class' => 'btn btn-primary login-btns col-10', 'name' => 'login-button']) ?>
+                                    </div>
+								</div>
+							</div>
+							<?php ActiveForm::end(); ?>
+						</div>
+					</div>
+				</div>
 
-    <?php ActiveForm::end(); ?>
+			</div>
+		</div>
+	</div>
+</main>
+<!-- /.login-card-body -->
 
-    <div class="offset-lg-1" style="color:#999;">
-        You may login with <strong>admin/admin</strong> or <strong>demo/demo</strong>.<br>
-        To modify the username/password, please check out the code <code>app\models\User::$users</code>.
-    </div>
-</div>

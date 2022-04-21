@@ -1,6 +1,8 @@
 <?php
 use yii\helpers\Html;
 use app\models\Notification;
+use app\models\Users;
+use app\models\User;
 
 ?>
 <!-- Navbar -->
@@ -114,7 +116,8 @@ use app\models\Notification;
 			</div></li>
 		<!-- Notifications Dropdown Menu -->
 		<li class="nav-item dropdown">
-		<?php $notifications = Notification::find()->where(['!=','state_id', Notification::STATE_DELETED])->andWhere(['to_user_id'=>Yii::$app->user->id])->orderBy(['id'=>SORT_DESC])?>
+		<?php if (!Yii::$app->user->isGuest) {?>
+		<?php $notifications = Notification::find()->where(['!=','state_id', Notification::STATE_DELETED])->andWhere(['to_user_id'=>Yii::$app->user->identity->id])->orderBy(['id'=>SORT_DESC])?>
 		<a class="nav-link" data-toggle="dropdown" href="notification/index">
 				<i class="far fa-bell"></i> <span
 				class="badge badge-warning navbar-badge"><?= $notifications->count() ?></span>
@@ -136,6 +139,7 @@ use app\models\Notification;
               <?= Html::a('Clear All Notifications', ['notification/clear'], ['class'=>"dropdown-item dropdown-footer"]) ?>
             </div>
 		</li>
+		<?php }?>
 		<li class="nav-item"></li>
 
 		<li class="nav-item dropdown"><a class="nav-link"

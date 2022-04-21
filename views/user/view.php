@@ -93,7 +93,8 @@ use yii\widgets\DetailView;
                       <h6 class="mb-0">State</h6>
                     </div>
                     <div class="col-sm-9 text-secondary">
-                      <?= $model->getState($model->state_id) ?>
+                    <span class="badge badge-<?= $model->getBadge($model->state_id) ?>"><?= $model->getState($model->state_id) ?></span>
+                      
                     </div>
                   </div>
                   <hr>

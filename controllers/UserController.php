@@ -81,42 +81,49 @@ class UserController extends Controller
                 $model->accessToken = $obj.'-token';
                 $model->profile_picture = UploadedFile::getInstance($model, 'profile_picture');
                 $model->upload();
-                if ($model->save(false)) {
-                    $title = 'New '.$model->getRole($model->roll_id);
-                    $type = Notification::TYPE_NEW;
-                    $users = Users::findAll([
-                        '<=',
-                        'roll_id',
-                        Users::ROLE_STAFF
-                    ]);
-                    foreach ($users as $user){
+                $transaction = \Yii::$app->db->beginTransaction();
+                try {
+                    if ($model->save(false)) {
+                        $title = 'New '.$model->getRole($model->roll_id);
+                        $type = Notification::TYPE_NEW;
+                        $users = Users::find()->where([
+                            '<=',
+                            'roll_id',
+                            Users::ROLE_TRAINER
+                        ]);
+                        foreach ($users->each() as $user){
+                            $notification = new Notification();
+                            $notification->title = $title;
+                            $notification->type_id = $type;
+                            $notification->model_id = $model->id;
+                            $notification->to_user_id = $user->id;
+                            $notification->icon = 'user';
+                            $notification->state_id = Notification::STATE_UNREAD;
+                            $notification->model = get_class($model);
+                            $notification->created_on = date('Y-m-d H:i:s');
+                            $notification->created_by_id = !empty(\Yii::$app->user->id) ? \Yii::$app->user->id : Users::ROLE_ADMIN;
+                            $notification->save(false);
+                        }
                         $notification = new Notification();
-                        $notification->title = $title;
-                        $notification->type_id = $type;
+                        $notification->title = 'Welcome';
+                        $notification->type_id = Notification::TYPE_SUCCESS;
                         $notification->model_id = $model->id;
-                        $notification->to_user_id = $user->id;
+                        $notification->to_user_id = $model->id;
                         $notification->icon = 'user';
                         $notification->state_id = Notification::STATE_UNREAD;
                         $notification->model = get_class($model);
                         $notification->created_on = date('Y-m-d H:i:s');
                         $notification->created_by_id = !empty(\Yii::$app->user->id) ? \Yii::$app->user->id : Users::ROLE_ADMIN;
                         $notification->save(false);
+                        $this->redirect([
+                            'view',
+                            'id' => $model->id
+                        ]);
                     }
-                    $notification = new Notification();
-                    $notification->title = 'Welcome';
-                    $notification->type_id = Notification::TYPE_SUCCESS;
-                    $notification->model_id = $model->id;
-                    $notification->to_user_id = $model->id;
-                    $notification->icon = 'user';
-                    $notification->state_id = Notification::STATE_UNREAD;
-                    $notification->model = get_class($model);
-                    $notification->created_on = date('Y-m-d H:i:s');
-                    $notification->created_by_id = !empty(\Yii::$app->user->id) ? \Yii::$app->user->id : Users::ROLE_ADMIN;
-                    $notification->save(false);
-                    $this->redirect([
-                        'view',
-                        'id' => $model->id
-                    ]);
+                    $transaction->commit();
+                } catch (\Exception $e) {
+                    $transaction->rollBack();
+                    print $e;
                 }
                 
             }
@@ -129,6 +136,10 @@ class UserController extends Controller
         ]);
     }
 
+    public function actionCreateTrainer($model){
+        
+    }
+    
     /**
      * Updates an existing Users model.
      * If update is successful, the browser will be redirected to the 'view' page.

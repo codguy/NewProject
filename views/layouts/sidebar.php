@@ -1,5 +1,6 @@
 <?php
 use app\models\Users;
+use yii\helpers\Html;
 ?>
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
@@ -13,7 +14,8 @@ use app\models\Users;
                 <img src="<?=  !empty(Yii::$app->user->identity->profile_picture) ? Yii::$app->request->baseUrl . '/../uploads/' .Yii::$app->user->identity->profile_picture : $model->getImageUrl() ?>" class="elevation-2 profile_pic" alt="User Image" height="40px" width="40px" >
             </div>
             <div class="info">
-                <a href="#" class="d-block"><?php echo !empty(Yii::$app->user->identity->username) ? Yii::$app->user->identity->username : Yii::$app->name ?></a>
+                <?php $username = !empty(Yii::$app->user->identity->username) ? Yii::$app->user->identity->username : Yii::$app->name;
+                echo Html::a($username,['user/view','id'=>Yii::$app->user->identity->id]);?>
             </div>
         </div>
 
@@ -76,20 +78,20 @@ use app\models\Users;
                         ]
                     ],
                     [
-                        'label' => 'Department',
-                        'icon' => 'fa fa-building',
+                        'label' => 'Courses',
+                        'icon' => 'fa fa-desktop',
                         'items' => [
                             [
                                 'label' => 'Add',
                                 'url' => [
-                                    'dept/create'
+                                    'course/create'
                                 ],
                                 'iconStyle' => 'fas fa-plus'
                             ],
                             [
                                 'label' => 'Show',
                                 'url' => [
-                                    'dept/index'
+                                    'course/index'
                                 ],
                                 'iconStyle' => 'fas fa-table'
                             ]
