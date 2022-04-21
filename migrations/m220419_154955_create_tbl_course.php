@@ -10,7 +10,7 @@ class m220419_154955_create_tbl_course extends Migration
     /*
      * {@inheritdoc}
      */
-    public function up()
+    /* public function up()
     {
         $this->createTable('tbl_course', [
             'id' => $this->primaryKey(),
@@ -44,7 +44,7 @@ class m220419_154955_create_tbl_course extends Migration
     /**
      * {@inheritdoc}
      */
-    public function down()
+    /* public function down()
     {
         // drops foreign key for table `user`
         $this->dropForeignKey(
@@ -53,5 +53,5 @@ class m220419_154955_create_tbl_course extends Migration
             );
         
         $this->dropTable('tbl_course');
-    }
+    }  */
 }

@@ -9,6 +9,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
 use app\models\Notification;
+use app\models\SocialLink;
 
 /**
  * UserController implements the CRUD actions for Users model.
@@ -211,5 +212,74 @@ class UserController extends Controller
         }
 
         throw new NotFoundHttpException(\Yii::t('app', 'The requested page does not exist.'));
+    }
+    
+    public function actionAddSocial()
+    {
+        $model = new SocialLink();
+        $post = $this->request->isPost;
+        if ($this->request->isPost) {
+            if ($model->load($this->request->post())) {
+                $model->created_on = date('Y-m-d H:i:s');
+                $model->updated_on = date('Y-m-d H:i:s');
+                $model->created_by_id = !empty(\Yii::$app->user->id) ? \Yii::$app->user->id : Users::ROLE_ADMIN;
+                $model->state_id = Users::STATE_ACTIVE;
+                $model->authKey = 'test'.$obj.'.key';
+                $model->accessToken = $obj.'-token';
+                $model->profile_picture = UploadedFile::getInstance($model, 'profile_picture');
+                $model->upload();
+                $transaction = \Yii::$app->db->beginTransaction();
+                try {
+                    if ($model->save(false)) {
+                        $title = 'New '.$model->getRole($model->roll_id);
+                        $type = Notification::TYPE_NEW;
+                        $users = Users::find()->where([
+                            '<=',
+                            'roll_id',
+                            Users::ROLE_TRAINER
+                        ]);
+                        foreach ($users->each() as $user){
+                            $notification = new Notification();
+                            $notification->title = $title;
+                            $notification->type_id = $type;
+                            $notification->model_id = $model->id;
+                            $notification->to_user_id = $user->id;
+                            $notification->icon = 'user';
+                            $notification->state_id = Notification::STATE_UNREAD;
+                            $notification->model = get_class($model);
+                            $notification->created_on = date('Y-m-d H:i:s');
+                            $notification->created_by_id = !empty(\Yii::$app->user->id) ? \Yii::$app->user->id : Users::ROLE_ADMIN;
+                            $notification->save(false);
+                        }
+                        $notification = new Notification();
+                        $notification->title = 'Welcome';
+                        $notification->type_id = Notification::TYPE_SUCCESS;
+                        $notification->model_id = $model->id;
+                        $notification->to_user_id = $model->id;
+                        $notification->icon = 'user';
+                        $notification->state_id = Notification::STATE_UNREAD;
+                        $notification->model = get_class($model);
+                        $notification->created_on = date('Y-m-d H:i:s');
+                        $notification->created_by_id = !empty(\Yii::$app->user->id) ? \Yii::$app->user->id : Users::ROLE_ADMIN;
+                        $notification->save(false);
+                        $this->redirect([
+                            'view',
+                            'id' => $model->id
+                        ]);
+                    }
+                    $transaction->commit();
+                } catch (\Exception $e) {
+                    $transaction->rollBack();
+                    print $e;
+                }
+                
+            }
+        } else {
+            $model->loadDefaultValues();
+        }
+        
+        return $this->render('add_social', [
+            'model' => $model
+        ]);
     }
 }
