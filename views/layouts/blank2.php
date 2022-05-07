@@ -22,24 +22,9 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed2010/admi
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
     <style>
-    body {
-    	background-image: linear-gradient(to right bottom, rgb(6, 85, 187), rgb(0, 133, 231), rgb(0, 174, 224), rgb(0, 208, 172), rgb(18, 235, 93));
-    	height: auto;
-    	color: white;
-    }
-    .card {
-        color:black;
-    	background-color: white;
-    	box-shadow: 5px 5px 15px -5px black;
-    }
-    .btn.btn-primary.login-btns {
-    	padding: 14px 110px;
-    	font-size: 1.3em;
-    	margin-top: 20px;
-    }
     </style>
 </head>
-<body class="hold-transition sidebar-mini" style=" background-image: linear-gradient(to right bottom, #0655bb, #0085e7, #00aee0, #00d0ac, #12eb5d);">
+<body>
 <?php $this->beginBody() ?>
 
 <div class="content">

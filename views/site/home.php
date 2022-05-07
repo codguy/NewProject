@@ -40,8 +40,8 @@ $this->registerCssFile('@web/css/home.css', ['depends'=> [yii\web\JqueryAsset::c
     <div class="container">
       <div class="row">
         <div class="col-lg-6 d-flex flex-column justify-content-center">
-          <h1 data-aos="fade-up">We offer modern Learning Platform</h1>
-          <h2 data-aos="fade-up" data-aos-delay="400">We are team of Computer Science Engineers making modifications to this platform for better user experience.</h2>
+          <h1 data-aos="fade-up">We offer a Learning Platform</h1>
+          <h2 data-aos="fade-up" data-aos-delay="400">I am a Computer Science Engineer, I created this project and making modifications to this platform for better user experience.</h2>
           <div data-aos="fade-up" data-aos-delay="600">
             <div class="text-center text-lg-start">
               
@@ -66,17 +66,17 @@ $this->registerCssFile('@web/css/home.css', ['depends'=> [yii\web\JqueryAsset::c
 
           <div class="col-lg-6 d-flex flex-column justify-content-center" data-aos="fade-up" data-aos-delay="200">
             <div class="content">
-              <h3>Who We Are</h3>
-              <h2>We are a team of Computer Science Engineers.</h2>
+              <h3>Who am i</h3>
+              <h2>I am a Computer Science Engineer.</h2>
               <p>
-                We are a team of engineers. During our engineering degree we had a dream of creating our own project, we had an idea of creating an online learning platform during the outbreak of Covid-19. So, we decided to create a platform for academy to handle all its operation from a single place.
+                Currently persuing my Bechelors of Technology degree. During my engineering degree i had a dream of creating my own project, I had an idea of creating an online learning platform during the outbreak of Covid-19. So, I decided to create a platform for academy to handle all its operation from a single place.
               </p>
-              <div class="text-center text-lg-start">
+              <!-- <div class="text-center text-lg-start">
                 <a href="#" class="btn-read-more d-inline-flex align-items-center justify-content-center align-self-center">
                   <span>Read More</span>
                   <i class="bi bi-arrow-right"></i>
                 </a>
-              </div>
+              </div> -->
             </div>
           </div>
 
@@ -132,7 +132,7 @@ $this->registerCssFile('@web/css/home.css', ['depends'=> [yii\web\JqueryAsset::c
     </section><!-- End Values Section -->
 
     <!-- ======= Counts Section ======= -->
-    <section id="counts" class="counts">
+    <!-- <section id="counts" class="counts">
       <div class="container" data-aos="fade-up">
 
         <div class="row gy-4">
@@ -180,10 +180,11 @@ $this->registerCssFile('@web/css/home.css', ['depends'=> [yii\web\JqueryAsset::c
         </div>
 
       </div>
-    </section><!-- End Counts Section -->
+    </section> -->
+    <!-- End Counts Section -->
 
     <!-- ======= Services Section ======= -->
-    <section id="services" class="services">
+   <!--  <section id="services" class="services">
 
       <div class="container" data-aos="fade-up">
 
@@ -252,10 +253,11 @@ $this->registerCssFile('@web/css/home.css', ['depends'=> [yii\web\JqueryAsset::c
 
       </div>
 
-    </section><!-- End Services Section -->
+    </section> -->
+    <!-- End Services Section -->
 
     <!-- ======= Pricing Section ======= -->
-    <section id="pricing" class="pricing">
+   <!--  <section id="pricing" class="pricing">
 
       <div class="container" data-aos="fade-up">
 
@@ -335,10 +337,11 @@ $this->registerCssFile('@web/css/home.css', ['depends'=> [yii\web\JqueryAsset::c
 
       </div>
 
-    </section><!-- End Pricing Section -->
+    </section>-->
+    <!-- End Pricing Section -->
 
     <!-- ======= Team Section ======= -->
-    <section id="team" class="team">
+    <!-- <section id="team" class="team">
 
       <div class="container" data-aos="fade-up">
 
@@ -348,63 +351,6 @@ $this->registerCssFile('@web/css/home.css', ['depends'=> [yii\web\JqueryAsset::c
         </header>
 
         <div class="row gy-4">
-
-          <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
-            <div class="member">
-              <div class="member-img">
-                <img src="images/team/team-1.jpg" class="img-fluid" alt="">
-                <div class="social">
-                  <a href=""><i class="fa fa-eye" aria-hidden="true"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
-              </div>
-              <div class="member-info">
-                <h4>Walter White</h4>
-                <span>Chief Executive Officer</span>
-                <p>Velit aut quia fugit et et. Dolorum ea voluptate vel tempore tenetur ipsa quae aut. Ipsum exercitationem iure minima enim corporis et voluptate.</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
-            <div class="member">
-              <div class="member-img">
-                <img src="images/team/team-2.jpg" class="img-fluid" alt="">
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
-              </div>
-              <div class="member-info">
-                <h4>Sarah Jhonson</h4>
-                <span>Product Manager</span>
-                <p>Quo esse repellendus quia id. Est eum et accusantium pariatur fugit nihil minima suscipit corporis. Voluptate sed quas reiciendis animi neque sapiente.</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="300">
-            <div class="member">
-              <div class="member-img">
-                <img src="images/team/team-3.jpg" class="img-fluid" alt="">
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
-              </div>
-              <div class="member-info">
-                <h4>William Anderson</h4>
-                <span>CTO</span>
-                <p>Vero omnis enim consequatur. Voluptas consectetur unde qui molestiae deserunt. Voluptates enim aut architecto porro aspernatur molestiae modi.</p>
-              </div>
-            </div>
-          </div>
 
           <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="400">
             <div class="member">
@@ -418,7 +364,7 @@ $this->registerCssFile('@web/css/home.css', ['depends'=> [yii\web\JqueryAsset::c
                 </div>
               </div>
               <div class="member-info">
-                <h4>Amanda Jepson</h4>
+                <h4>Satnam</h4>
                 <span>Accountant</span>
                 <p>Rerum voluptate non adipisci animi distinctio et deserunt amet voluptas. Quia aut aliquid doloremque ut possimus ipsum officia.</p>
               </div>
@@ -429,7 +375,8 @@ $this->registerCssFile('@web/css/home.css', ['depends'=> [yii\web\JqueryAsset::c
 
       </div>
 
-    </section><!-- End Team Section -->
+    </section> -->
+    <!-- End Team Section -->
 
   </main><!-- End #main -->
 
@@ -456,33 +403,33 @@ $this->registerCssFile('@web/css/home.css', ['depends'=> [yii\web\JqueryAsset::c
           <div class="col-lg-2 col-6 footer-links">
             <h4>Useful Links</h4>
             <ul>
-              <li><i class="bi bi-chevron-right"></i> <a href="#">Home</a></li>
-              <li><i class="bi bi-chevron-right"></i> <a href="#">About us</a></li>
-              <li><i class="bi bi-chevron-right"></i> <a href="#">Services</a></li>
-              <li><i class="bi bi-chevron-right"></i> <a href="#">Terms of service</a></li>
-              <li><i class="bi bi-chevron-right"></i> <a href="#">Privacy policy</a></li>
+              <li><i class="fa fa-chevron-right"></i> <a href="#">Home</a></li>
+              <li><i class="fa fa-chevron-right"></i> <a href="#">About us</a></li>
+              <li><i class="fa fa-chevron-right"></i> <a href="#">Services</a></li>
+              <li><i class="fa fa-chevron-right"></i> <a href="#">Terms of service</a></li>
+              <li><i class="fa fa-chevron-right"></i> <a href="#">Privacy policy</a></li>
             </ul>
           </div>
 
           <div class="col-lg-2 col-6 footer-links">
             <h4>Our Services</h4>
             <ul>
-              <li><i class="bi bi-chevron-right"></i> <a href="#">Web Design</a></li>
-              <li><i class="bi bi-chevron-right"></i> <a href="#">Web Development</a></li>
-              <li><i class="bi bi-chevron-right"></i> <a href="#">Product Management</a></li>
-              <li><i class="bi bi-chevron-right"></i> <a href="#">Marketing</a></li>
-              <li><i class="bi bi-chevron-right"></i> <a href="#">Graphic Design</a></li>
+              <li><i class="fa fa-chevron-right"></i> <a href="#">Web Design</a></li>
+              <li><i class="fa fa-chevron-right"></i> <a href="#">Web Development</a></li>
+              <li><i class="fa fa-chevron-right"></i> <a href="#">Product Management</a></li>
+              <li><i class="fa fa-chevron-right"></i> <a href="#">Marketing</a></li>
+              <li><i class="fa fa-chevron-right"></i> <a href="#">Graphic Design</a></li>
             </ul>
           </div>
 
           <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
             <h4>Contact Us</h4>
             <p>
-              A108 Adam Street <br>
-              New York, NY 535022<br>
-              United States <br><br>
-              <strong>Phone:</strong> +1 5589 55488 55<br>
-              <strong>Email:</strong> info@example.com<br>
+              455-D Boys Hostel<br>
+              Rayat Bahra University, Mohali<br>
+              Punjab, India <br><br>
+              <strong>Phone:</strong> +91 73470 56914<br>
+              <strong>Email:</strong> satnam9762@gmail.com<br>
             </p>
 
           </div>
@@ -493,14 +440,9 @@ $this->registerCssFile('@web/css/home.css', ['depends'=> [yii\web\JqueryAsset::c
 
     <div class="container">
       <div class="copyright">
-        &copy; Copyright <strong><span>FlexStart</span></strong>. All Rights Reserved
+        &copy; Copyright <strong><span>Academy</span></strong>. All Rights Reserved
       </div>
       <div class="credits">
-        <!-- All the links in the footer should remain intact. -->
-        <!-- You can delete the links only if you purchased the pro version. -->
-        <!-- Licensing information: https://bootstrapmade.com/license/ -->
-        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/flexstart-bootstrap-startup-template/ -->
-        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
       </div>
     </div>
   </footer><!-- End Footer -->

@@ -178,4 +178,18 @@ class Notification extends \yii\db\ActiveRecord
         }
         return $result;
     }
+    
+    public static function createNofication($title, $type, $model, $to_user, $icon){
+        $notification = new Notification();
+        $notification->title = $title;
+        $notification->type_id = $type;
+        $notification->model_id = $model->id;
+        $notification->to_user_id = $to_user;
+        $notification->icon = $icon;
+        $notification->state_id = Notification::STATE_UNREAD;
+        $notification->model = get_class($model);
+        $notification->created_on = date('Y-m-d H:i:s');
+        $notification->created_by_id = ! empty(\Yii::$app->user->id) ? \Yii::$app->user->id : Users::ROLE_ADMIN;
+        $notification->save(false);
+    }
 }

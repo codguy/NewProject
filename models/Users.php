@@ -3,6 +3,7 @@ namespace app\models;
 
 use Yii;
 use yii\web\IdentityInterface;
+use phpDocumentor\Reflection\PseudoTypes\True_;
 
 /**
  * This is the model class for table "tbl_user".
@@ -26,7 +27,12 @@ use yii\web\IdentityInterface;
  */
 class Users extends \yii\db\ActiveRecord implements IdentityInterface
 {
+    const BEGINER = 0;
 
+    const INTERMEDIATE = 1;
+    
+    const ADVANCED = 2;
+    
     const ROLE_ADMIN = 1;
 
     const ROLE_MANAGER = 2;
@@ -330,6 +336,43 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
             Users::STATE_DELETED => 'dark',
         );
         return $list[$id];
+    }
+    
+    public static function getSkillBadge($data,$color){
+        $colors = array(
+            Users::BEGINER => 'secondary',
+            Users::INTERMEDIATE => 'primary',
+            Users::ADVANCED => 'success',
+        );
+        return '<span class="m-1 p-2 badge badge-'.$colors[$color].'">'.$data.'</span>';
+    }
+    
+    public static function isAdmin($id = false) {
+        $user = self::findOne([
+            'id' => !empty($id) ? $id : \Yii::$app->user->identity->id
+        ]);
+        return ($user->roll_id == self::ROLE_ADMIN) ? true : false;
+    }
+    
+    public static function isManager($id = false) {
+        $user = self::findOne([
+            'id' => !empty($id) ? $id : \Yii::$app->user->identity->id
+        ]);
+        return ($user->roll_id == self::ROLE_MANAGER) ? true : false;
+    }
+    
+    public static function isTrainer($id = false) {
+        $user = self::findOne([
+            'id' => !empty($id) ? $id : \Yii::$app->user->identity->id
+        ]);
+        return ($user->roll_id == self::ROLE_TRAINER) ? true : false;
+    }
+    
+    public static function isStudent($id = false) {
+        $user = self::findOne([
+            'id' => !empty($id) ? $id : \Yii::$app->user->identity->id
+        ]);
+        return ($user->roll_id == self::ROLE_STUDENT) ? true : false;
     }
     
 }

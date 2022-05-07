@@ -4,8 +4,8 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
-use yii\widgets\Pjax;
 use app\models\Course;
+
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\search\Course */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -21,23 +21,30 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a(Yii::t('app', 'Create Course'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?php Pjax::begin(); ?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
+//         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+//             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
             'name',
-            'desciption',
+//             'desciption',
+            [
+                'attribute' => 'desciption',
+                'format' => 'raw',
+                'value' => function($model) {
+                    return $model->desciption;
+                }
+            ],
             'dificulty',
             'trainer_id',
             //'created_on',
             //'created_by_id',
             //'updated_on',
+            //'image',
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Course $model, $key, $index, $column) {
@@ -47,6 +54,5 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
 
-    <?php Pjax::end(); ?>
 
 </div>

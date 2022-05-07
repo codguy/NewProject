@@ -122,16 +122,16 @@ use app\models\User;
 				<i class="far fa-bell"></i> <span
 				class="badge badge-warning navbar-badge"><?= $notifications->count() ?></span>
 		</a>
-			<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+			<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="width: 400px;">
 				<span class="dropdown-header"><?= $notifications->count() ?> Notifications</span>
-				<div class="dropdown-item dropdown-body"> 
+				<div class="dropdown-item dropdown-body overflow-auto" style="width: 300px;"> 
               <?php foreach ($notifications->each() as $notification) {
                     $color = $notification->getColor($notification->type_id);
                 ?>
               <div class="dropdown-divider"></div>
 					<a href="#" class="dropdown-item"> <i
 						class="fas fa-<?=$notification->icon ?> mr-1 ml-n2 btn btn-outline-<?=$color?> btn-sm"></i> <?= $notification->title ?>  
-                  <span class="float-right text-muted text-sm"><?= $notification->getTime() ?></span>
+                  <span class="float-right text-muted text-sm" style="font-size: 0.6rem"><?= $notification->getTime() ?></span>
 					</a>
               <?php } ?>
               </div>

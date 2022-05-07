@@ -11,7 +11,10 @@ use yii\widgets\ActiveForm;
 	<div class="container d-flex flex-column">
 		<div class="col-sm-11 mx-auto d-table h-100">
 			<div class="d-table-cell align-middle">
-
+				<div class="text-center mt-4">
+					<h1 class="h1">Welcome</h1>
+					<p class="lead">Create a new acconut here</p>
+				</div>
 				<?php
                     $form = ActiveForm::begin([
                         'id' => 'signup-form',
@@ -83,7 +86,7 @@ use yii\widgets\ActiveForm;
 						<div class="text-center mt-3">
 
 							<div class="form-group">
-                                    <?= Html::submitButton((Yii::$app->controller->action->id == 'create') ? Yii::t('app', 'Create User') : Yii::t('app', 'Update User'), ['class' => 'btn btn-success login-btns']) ?>
+                                    <?= Html::submitButton(Yii::t('app', 'Sign Up'), ['class' => 'shadow-sm bg-body rounded btn btn-primary login-btns']) ?>
                                 </div>
 						</div>
                         <?php ActiveForm::end(); ?>
@@ -99,7 +102,6 @@ function showPreview(event){
     var src = URL.createObjectURL(event.target.files[0]);
     var preview = document.getElementById("file-ip-1-preview");
     preview.src = src;
-    preview.style.display = "block";
   }
 }
 // $( document ).ready(function() {

@@ -5,24 +5,24 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "tbl_feed".
+ * This is the model class for table "tbl_skill".
  *
  * @property int $id
- * @property string $title
- * @property string|null $desciption
+ * @property string|null $model
+ * @property int $model_id
+ * @property string $skill
  * @property string|null $created_on
- * @property int|null $created_by_id
  * @property string|null $updated_on
- * @property string|null $image
+ * @property int $level
  */
-class Feed extends \yii\db\ActiveRecord
+class Skill extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'tbl_feed';
+        return 'tbl_skill';
     }
 
     /**
@@ -31,11 +31,12 @@ class Feed extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title'], 'required'],
+            [['model_id', 'skill'], 'required'],
+            [['model_id', 'level'], 'integer'],
             [['created_on', 'updated_on'], 'safe'],
-            [['created_by_id'], 'integer'],
-            [['title'], 'string', 'max' => 50],
-            [['desciption', 'image'], 'string', 'max' => 255],
+            [['model'], 'string', 'max' => 255],
+            [['skill'], 'string', 'max' => 25],
+            ['skill', 'unique']
         ];
     }
 
@@ -46,12 +47,12 @@ class Feed extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'title' => Yii::t('app', 'Title'),
-            'desciption' => Yii::t('app', 'Desciption'),
+            'model' => Yii::t('app', 'Model'),
+            'model_id' => Yii::t('app', 'Model ID'),
+            'skill' => Yii::t('app', 'Skill'),
             'created_on' => Yii::t('app', 'Created On'),
-            'created_by_id' => Yii::t('app', 'Created By ID'),
             'updated_on' => Yii::t('app', 'Updated On'),
-            'image' => Yii::t('app', 'Image'),
+            'level' => Yii::t('app', 'Level'),
         ];
     }
 }

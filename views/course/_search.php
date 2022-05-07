@@ -13,9 +13,6 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
         'method' => 'get',
-        'options' => [
-            'data-pjax' => 1
-        ],
     ]); ?>
 
     <?= $form->field($model, 'id') ?>
@@ -33,6 +30,8 @@ use yii\widgets\ActiveForm;
     <?php // echo $form->field($model, 'created_by_id') ?>
 
     <?php // echo $form->field($model, 'updated_on') ?>
+
+    <?php // echo $form->field($model, 'image') ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>

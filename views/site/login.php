@@ -60,7 +60,7 @@ use app\models\search\Users;
 								<!-- <button type="submit" class="btn btn-lg btn-primary">Sign in</button> -->
 								<div class="form-group">
 									<div class="offset-lg-1 col-lg-11">
-                                        <?= Html::submitButton('Sign up', ['class' => 'btn btn-primary login-btns col-10', 'name' => 'login-button']) ?>
+                                        <?= Html::submitButton('Sign In', ['class' => 'btn btn-primary login-btns col-10', 'name' => 'login-button']) ?>
                                     </div>
 								</div>
 							</div>

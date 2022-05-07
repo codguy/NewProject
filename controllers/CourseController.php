@@ -8,7 +8,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\Users;
-use app\models\Notification;
+use yii\web\UploadedFile;
 
 /**
  * CourseController implements the CRUD actions for Course model.
@@ -72,32 +72,13 @@ class CourseController extends Controller
         $model = new Course();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post())){
-                $model->created_on = date('Y-m-d H:i:s');
-                $model->updated_on = date('Y-m-d H:i:s');
-                $model->created_by_id = !empty(\Yii::$app->user->id) ? \Yii::$app->user->id : Users::ROLE_ADMIN;
-                if($model->save()) {
-                    $title = 'New Course';
-                    $type = Notification::TYPE_NEW;
-                    $users = Users::find()->where([
-                        '<=',
-                        'roll_id',
-                        Users::ROLE_STAFF
-                    ]);
-                    foreach ($users->each() as $user){
-                        $notification = new Notification();
-                        $notification->title = $title;
-                        $notification->type_id = $type;
-                        $notification->model_id = $model->id;
-                        $notification->to_user_id = $user->id;
-                        $notification->icon = 'user';
-                        $notification->state_id = Notification::STATE_UNREAD;
-                        $notification->model = get_class($model);
-                        $notification->created_on = date('Y-m-d H:i:s');
-                        $notification->created_by_id = !empty(\Yii::$app->user->id) ? \Yii::$app->user->id : Users::ROLE_ADMIN;
-                        $notification->save(false);
-                    }
-                }
+            $model->created_on = date('Y-m-d H:i:s');
+            $model->updated_on = date('Y-m-d H:i:s');
+            $model->created_by_id = ! empty(\Yii::$app->user->id) ? \Yii::$app->user->id : Users::ROLE_ADMIN;
+            $model->trainer_id = ! empty(\Yii::$app->user->id) ? \Yii::$app->user->id : Users::ROLE_ADMIN;
+            $model->image = UploadedFile::getInstance($model, 'image');
+            $model->upload();
+            if ($model->load($this->request->post()) && $model->save(false)) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
@@ -120,8 +101,15 @@ class CourseController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($this->request->isPost){
+            if($model->load($this->request->post())){
+                $model->updated_on = date('Y-m-d H:i:s');
+                $model->image = UploadedFile::getInstance($model, 'image');
+                $model->upload();
+                if($model->save(false)) {
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
+            }
         }
 
         return $this->render('update', [

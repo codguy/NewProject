@@ -18,7 +18,7 @@ class Course extends CourseModel
     {
         return [
             [['id', 'dificulty', 'trainer_id', 'created_by_id'], 'integer'],
-            [['name', 'desciption', 'created_on', 'updated_on'], 'safe'],
+            [['name', 'desciption', 'created_on', 'updated_on', 'image'], 'safe'],
         ];
     }
 
@@ -67,7 +67,8 @@ class Course extends CourseModel
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'desciption', $this->desciption]);
+            ->andFilterWhere(['like', 'desciption', $this->desciption])
+            ->andFilterWhere(['like', 'image', $this->image]);
 
         return $dataProvider;
     }
