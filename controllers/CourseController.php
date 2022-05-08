@@ -9,6 +9,9 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\Users;
 use yii\web\UploadedFile;
+use app\models\Chapter;
+use Codeception\Lib\Actor\Shared\Comment;
+use app\models\Discussion;
 
 /**
  * CourseController implements the CRUD actions for Course model.
@@ -76,8 +79,10 @@ class CourseController extends Controller
             $model->updated_on = date('Y-m-d H:i:s');
             $model->created_by_id = ! empty(\Yii::$app->user->id) ? \Yii::$app->user->id : Users::ROLE_ADMIN;
             $model->trainer_id = ! empty(\Yii::$app->user->id) ? \Yii::$app->user->id : Users::ROLE_ADMIN;
-            $model->image = UploadedFile::getInstance($model, 'image');
-            $model->upload();
+            if(UploadedFile::getInstance($model, 'image') != null){
+                $model->image = UploadedFile::getInstance($model, 'image');
+                $model->image = $model->upload();
+            }
             if ($model->load($this->request->post()) && $model->save(false)) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
@@ -100,12 +105,16 @@ class CourseController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+        $image = $model->image;
         if ($this->request->isPost){
             if($model->load($this->request->post())){
                 $model->updated_on = date('Y-m-d H:i:s');
-                $model->image = UploadedFile::getInstance($model, 'image');
-                $model->upload();
+                if(UploadedFile::getInstance($model, 'image') != null){
+                    $model->image = UploadedFile::getInstance($model, 'image');
+                    $model->image = $model->upload();
+                }else{
+                    $model->image = $image;
+                }
                 if($model->save(false)) {
                     return $this->redirect(['view', 'id' => $model->id]);
                 }
@@ -144,6 +153,52 @@ class CourseController extends Controller
             return $model;
         }
 
-        throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+        throw new NotFoundHttpException(\Yii::t('app', 'The requested page does not exist.'));
+    }
+    
+    public function actionAddChapter($id) {
+        $model = new Chapter();
+        $post = $this->request->post();
+        if ($this->request->isPost) {
+            $model->created_on = date('Y-m-d H:i:s');
+            $model->updated_on = date('Y-m-d H:i:s');
+            $model->created_by_id = ! empty(\Yii::$app->user->id) ? \Yii::$app->user->id : Users::ROLE_ADMIN;
+            $model->course_id = $id;
+            $model->desciption = $post['Chapter']['desciption'];
+            if ($model->load($post) && $model->save(false)) {
+                return $this->redirect(['view', 'id' => $id]);
+            }
+        }
+        
+        return $this->render('add_chapter', [
+            'model' => $model,
+            'id' => $id
+        ]);
+    }
+    
+    public function actionViewChapter($id)
+    {
+        return $this->render('_chapter', [
+            'model' => Chapter::findOne($id),
+        ]);
+    }
+    
+    public function actionDiscuss() {
+        $model = new Discussion();
+        $post = $this->request->post();
+        if ($this->request->isPost) {
+            $model->message = $post['message'];
+            $model->model = $post['model'];
+            $model->model_id = $post['model_id'];
+            $model->user_id = \Yii::$app->user->identity->id;
+            $model->created_on = date('Y-m-d H:i:s');
+            $model->updated_on = date('Y-m-d H:i:s');
+            $model->created_by_id = \Yii::$app->user->id;
+            if ($model->save(false)) {
+                echo '<pre>';
+                print_r($model);die;
+                return $this->redirect(['view', 'id' => $this->id]);
+            }
+        }
     }
 }

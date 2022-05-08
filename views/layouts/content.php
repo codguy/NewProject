@@ -3,7 +3,7 @@
 
 use yii\bootstrap4\Breadcrumbs;
 ?>
-<div class="content-wrapper">
+<div class="content-wrapper" style="overflow:auto;">
   
     <!-- Main content -->
     <div class="content">

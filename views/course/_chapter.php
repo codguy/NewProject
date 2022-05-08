@@ -3,12 +3,12 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use app\models\Users;
 use app\models\Chapter;
-use yii\helpers\Url;
+use app\models\Course;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Course */
 
-$this->title = $model->name;
+$this->title = $model->title;
 $this->params['breadcrumbs'][] = [
     'label' => Yii::t('app', 'Courses'),
     'url' => [
@@ -22,23 +22,21 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="container mt-5">
 	<div class="row">
-		<div class="col-lg-8">
+		<div class="col-lg-12">
 			<!-- Post content-->
 			<article>
 				<!-- Post header-->
 				<header class="mb-4">
 					<!-- Post title-->
-					<h1 class="fw-bolder mb-1"><?php echo $model->name ?></h1>
+					<h1 class="fw-bolder mb-1"><?php echo $model->title ?></h1>
 					<!-- Post meta content-->
-					<div class="text-muted fst-italic mb-2">Posted on <?php echo date("M d, Y", strtotime($model->created_on)) ?> by <?php echo (Users::findOne([$model->trainer_id]))->username?></div>
+					<div class="text-muted fst-italic mb-2">Posted on <?php echo date("M d, Y", strtotime($model->created_on)) ?> by <?php echo (Course::findOne([$model->course_id]))->name?></div>
 					<!-- Post categories-->
 					<a class="badge bg-secondary text-decoration-none link-light"
 						href="#!">Web Design</a> <a
 						class="badge bg-secondary text-decoration-none link-light"
 						href="#!">Freebies</a>
 				</header>
-				<!-- Preview image figure-->
-				<figure class="mb-4"><?php echo $model->getImage();?></figure>
 				<!-- Post content-->
 				<!-- https://dummyimage.com/900x400/ced4da/6c757d.jpg -->
 				<section class="mb-5">
@@ -51,9 +49,8 @@ $this->params['breadcrumbs'][] = $this->title;
 					<div class="card-body">
 						<!-- Comment form-->
 						<form class="mb-4">
-							<textarea class="form-control" rows="3" id="discuss"
+							<textarea class="form-control" rows="3"
 								placeholder="Join the discussion and leave a comment!"></textarea>
-							<?php echo Html::button('send',[ "id"=>"discuss-btn", "class"=>"btn btn-secondary float-right", 'data-id'=>$model->id, 'data-key'=>get_class($model)])?>
 						</form>
 						<!-- Comment with nested comments-->
 						<div class="d-flex mb-4">
@@ -115,73 +112,6 @@ $this->params['breadcrumbs'][] = $this->title;
 			</section>
 		</div>
 		<!-- Side widgets-->
-		<div class="col-lg-4">
-			<!-- Search widget-->
-			<p>
-                <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-                <?=Html::a(Yii::t('app', 'Delete'), ['delete','id' => $model->id], ['class' => 'btn btn-danger','data' => ['confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),'method' => 'post']])?>
-            </p>
-			<div class="card mb-4">
-				<div class="card-header">Search</div>
-				<div class="card-body">
-					<div class="input-group">
-						<input class="form-control" type="text"
-							placeholder="Enter search term..."
-							aria-label="Enter search term..."
-							aria-describedby="button-search" />
-						<button class="btn btn-primary" id="button-search" type="button">Go!</button>
-					</div>
-				</div>
-			</div>
-			<!-- Categories widget-->
-			<div class="card mb-4">
-				<div class="card-header">Chapters	</div>
-				<div class="card-body">
-					<div class="row">
-					<ul class="list-unstyled mb-0">
-						<?php 
-						$chapters = Chapter::find()->where([
-						    'course_id' => $model->id
-						]);
-						
-						foreach ($chapters->each() as $chapter){
-						    echo Html::a('<li style="width: 200px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">'.$chapter->title.'</li>', ['course/view-chapter', 'id'=> $model->id]);
-						}
-						echo Html::a('Add Chapters', ['course/add-chapter', 'id' => $model->id], ['class' => 'badge btn btn-outline-primary']);
-						?>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<!-- Side widget-->
-			<div class="card mb-4">
-				<div class="card-header">Side Widget</div>
-				<div class="card-body">You can put anything you want inside of these
-					side widgets. They are easy to use, and feature the Bootstrap 5
-					card component!</div>
-			</div>
-		</div>
+		
 	</div>
 </div>
-<script>
-;
-$(document).on('click', '#discuss-btn', function(){
-	var msg = $('#discuss').val();
-	var model_id = $(this).attr('data-id');
-	var model = $(this).attr('data-key');
-	var arr = {
-		message: msg,
-		model: model,
-		model_id: model_id
-	}
-	$.ajax({
-	    type: 'POST',
-        dataType: 'json',
-	    data: arr,
-		url: '<?= Url::toRoute(['course/discuss'])?>',
-		success: function(data) {
-			location.reload();
-		}
-	});
-});
-</script>

@@ -4,18 +4,18 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "tbl_feed".
+ * This is the model class for table "tbl_chapter".
  *
  * @property int $id
  * @property string $title
  * @property string|null $desciption
+ * @property int|null $dificulty
+ * @property int|null $course_id
  * @property string|null $created_on
  * @property int|null $created_by_id
  * @property string|null $updated_on
- * @property string|null $image
- * @property int $state_id
  */
-class Feed extends \yii\db\ActiveRecord
+class Chapter extends \yii\db\ActiveRecord
 {
 
     /**
@@ -24,7 +24,7 @@ class Feed extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'tbl_feed';
+        return 'tbl_chapter';
     }
 
     /**
@@ -42,6 +42,14 @@ class Feed extends \yii\db\ActiveRecord
             ],
             [
                 [
+                    'dificulty',
+                    'course_id',
+                    'created_by_id'
+                ],
+                'integer'
+            ],
+            [
+                [
                     'created_on',
                     'updated_on'
                 ],
@@ -49,25 +57,10 @@ class Feed extends \yii\db\ActiveRecord
             ],
             [
                 [
-                    'created_by_id',
-                    'state_id'
-                ],
-                'integer'
-            ],
-            [
-                [
                     'title'
                 ],
                 'string',
                 'max' => 50
-            ],
-            [
-                [
-                    'desciption',
-                    'image'
-                ],
-                'string',
-                'max' => 255
             ]
         ];
     }
@@ -82,11 +75,11 @@ class Feed extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'title' => Yii::t('app', 'Title'),
             'desciption' => Yii::t('app', 'Desciption'),
+            'dificulty' => Yii::t('app', 'Dificulty'),
+            'course_id' => Yii::t('app', 'Course ID'),
             'created_on' => Yii::t('app', 'Created On'),
             'created_by_id' => Yii::t('app', 'Created By ID'),
-            'updated_on' => Yii::t('app', 'Updated On'),
-            'image' => Yii::t('app', 'Image'),
-            'state_id' => Yii::t('app', 'State ID')
+            'updated_on' => Yii::t('app', 'Updated On')
         ];
     }
 }
