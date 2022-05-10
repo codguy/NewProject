@@ -272,8 +272,9 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
     {
         if ($this->validate(false)) {
             if (! empty($this->profile_picture)) {
-                $this->profile_picture->saveAs('../uploads/' . str_replace(" ", "_", $this->profile_picture->baseName) . '.' . $this->profile_picture->extension);
-                return true;
+                $name = substr($this->profile_picture->tempName, 16) . '.' . $this->profile_picture->extension;
+                $this->profile_picture->saveAs('../uploads/' . $name);
+                return $name;
             }
         } else {
             return false;
@@ -373,6 +374,10 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
             'id' => !empty($id) ? $id : \Yii::$app->user->identity->id
         ]);
         return ($user->roll_id == self::ROLE_STUDENT) ? true : false;
+    }
+    
+    public static function isSelf($id = false) {
+        return ($id == \Yii::$app->user->identity->getId()) ? true : false;
     }
     
 }

@@ -54,6 +54,7 @@ class Discussion extends \yii\db\ActiveRecord
             [
                 [
                     'created_on',
+                    'replied_to',
                     'updated_on'
                 ],
                 'safe'

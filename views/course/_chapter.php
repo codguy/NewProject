@@ -4,6 +4,8 @@ use yii\widgets\DetailView;
 use app\models\Users;
 use app\models\Chapter;
 use app\models\Course;
+use app\models\Discussion;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Course */
@@ -49,64 +51,64 @@ $this->params['breadcrumbs'][] = $this->title;
 					<div class="card-body">
 						<!-- Comment form-->
 						<form class="mb-4">
-							<textarea class="form-control" rows="3"
+							<textarea class="form-control" rows="3" id="discuss"
 								placeholder="Join the discussion and leave a comment!"></textarea>
+							<?php echo Html::button('send',[ "id"=>"discuss-btn", "class"=>"btn btn-secondary float-right", 'data-id'=>$model->id, 'data-key'=>get_class($model)])?>
 						</form>
 						<!-- Comment with nested comments-->
-						<div class="d-flex mb-4">
+<!-- 						<div class="d-flex mb-4"> -->
 							<!-- Parent comment-->
-							<div class="flex-shrink-0">
-								<img class="rounded-circle"
-									src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." />
-							</div>
-							<div class="ms-3">
-								<div class="fw-bold">Commenter Name</div>
-								If you're going to lead a space frontier, it has to be
-								government; it'll never be private enterprise. Because the space
-								frontier is dangerous, and it's expensive, and it has
-								unquantified risks.
+<!-- 							<div class="flex-shrink-0"> -->
+<!-- 								<img class="rounded-circle" -->
+<!-- 									src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /> -->
+<!-- 							</div> -->
+<!-- 							<div class="ms-3"> -->
+<!-- 								<div class="fw-bold">Commenter Name</div> -->
+<!-- 								If you're going to lead a space frontier, it has to be -->
+<!-- 								government; it'll never be private enterprise. Because the space -->
+<!-- 								frontier is dangerous, and it's expensive, and it has -->
+<!-- 								unquantified risks. -->
 								<!-- Child comment 1-->
-								<div class="d-flex mt-4">
-									<div class="flex-shrink-0">
-										<img class="rounded-circle"
-											src="https://dummyimage.com/50x50/ced4da/6c757d.jpg"
-											alt="..." />
-									</div>
-									<div class="ms-3">
-										<div class="fw-bold">Commenter Name</div>
-										And under those conditions, you cannot establish a
-										capital-market evaluation of that enterprise. You can't get
-										investors.
-									</div>
-								</div>
-								<!-- Child comment 2-->
-								<div class="d-flex mt-4">
-									<div class="flex-shrink-0">
-										<img class="rounded-circle"
-											src="https://dummyimage.com/50x50/ced4da/6c757d.jpg"
-											alt="..." />
-									</div>
-									<div class="ms-3">
-										<div class="fw-bold">Commenter Name</div>
-										When you put money directly to a problem, it makes a good
-										headline.
-									</div>
-								</div>
-							</div>
-						</div>
+<!-- 								<div class="d-flex mt-4"> -->
+<!-- 									<div class="flex-shrink-0"> -->
+<!-- 										<img class="rounded-circle" -->
+<!-- 											src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" -->
+<!-- 											alt="..." /> -->
+<!-- 									</div> -->
+<!-- 									<div class="ms-3"> -->
+<!-- 										<div class="fw-bold">Commenter Name</div> -->
+<!-- 										And under those conditions, you cannot establish a -->
+<!-- 										capital-market evaluation of that enterprise. You can't get -->
+<!-- 										investors. -->
+<!-- 									</div> -->
+<!-- 								</div> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
 						<!-- Single comment-->
-						<div class="d-flex">
+						<?php 
+						      $comments = Discussion::find()->where([
+						          'model' => get_class($model),
+						          'model_id' => $model->id
+						      ]);
+						      
+						      if(!empty($comments)){
+						          foreach ($comments->each() as $comment){
+						              $person = Users::findOne($comment->user_id);
+						?>
+						<div class="d-flex m-3">
 							<div class="flex-shrink-0">
 								<img class="rounded-circle"
-									src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." />
+									src="<?php echo $person->getImageUrl() ?>" height="50px" width="50px" alt="..." style="overflow:hidden;object-fit:cover;" />
 							</div>
-							<div class="ms-3">
-								<div class="fw-bold">Commenter Name</div>
-								When I look at the universe and all the ways the universe wants
-								to kill us, I find it hard to reconcile that with statements of
-								beneficence.
+							<div class="ms-3 ml-3">
+								<div class="fw-bold"><span class="font-weight-bold"><?php echo $person->username ?></span><small class="font-weight-light ml-2"><?php echo date('M d, Y H:i A', strtotime($comment->created_on)) ?></small></div>
+								<?php echo $comment->message ?>
 							</div>
 						</div>
+						<?php 
+						          }
+						      }
+						?>
 					</div>
 				</div>
 			</section>
@@ -115,3 +117,25 @@ $this->params['breadcrumbs'][] = $this->title;
 		
 	</div>
 </div>
+<script>
+$(document).on('click', '#discuss-btn', function(){
+	var msg = $('#discuss').val();
+	var model_id = $(this).attr('data-id');
+	var model = $(this).attr('data-key');
+	var arr = {
+		message: msg,
+		model: model,
+		model_id: model_id
+	}
+	$.ajax({
+	    type: 'POST',
+        dataType: 'json',
+	    data: arr,
+		url: '<?= Url::toRoute(['course/discuss'])?>',
+		success: function(data) {
+			location.reload();
+		}
+	});
+});
+
+</script>

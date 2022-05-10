@@ -35,6 +35,7 @@ $this->registerJsFile('https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery
 <?php $this->beginBody() ?>
 
 <div class="wrapper">
+
     <!-- Navbar -->
     <?= $this->render('navbar', ['assetDir' => $assetDir]) ?>
     <!-- /.navbar -->

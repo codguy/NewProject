@@ -17,13 +17,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
 	<h1><?= Html::encode($this->title) ?></h1>
 
-	<p>
-        <?= Html::a(Yii::t('app', 'Create Course'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
 <?php 
 echo ListView::widget([
     'dataProvider' => $dataProvider,
+    'layout' => '{items}{pager}',
     'itemView' => '_card',
 ]);
 ?>

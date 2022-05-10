@@ -2,6 +2,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use dosamigos\ckeditor\CKEditor;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Course */
@@ -39,37 +40,8 @@ use dosamigos\ckeditor\CKEditor;
         <?= $form->field($model, 'dificulty')->textInput(['type'=>'range', 'min' => 1, 'max' => 3]) ?>
     </div>
 
-    <?=$form->field($model, 'desciption')->widget(CKEditor::className(), ['options' => ['rows' => 6,'class' => 'from-control'],'preset' => 'advanced',
-        'clientOptions' => [
-            'toolbar' => [
-                [
-                    'name' => 'row1',
-                    'items' => [
-                        'Source', '-',
-                        'Bold', 'Italic', 'Underline', 'Strike', '-',
-                        'Subscript', 'Superscript', 'RemoveFormat', '-',
-                        'TextColor', 'BGColor', '-',
-                        'NumberedList', 'BulletedList', '-',
-                        'Outdent', 'Indent', '-', 'Blockquote', '-',
-                        'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'list', 'indent', 'blocks', 'align', 'bidi', '-',
-                        'Link', 'Unlink', 'Anchor', '-',
-                        'ShowBlocks', 'Maximize',
-                        //'pbckcode',
-                    ],
-                ],
-                [
-                    'name' => 'row2',
-                    'items' => [
-                        'Image', 'Table', 'HorizontalRule', 'SpecialChar', 'Iframe', '-',
-                        'NewPage', 'Print', 'Templates', '-',
-                        'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-',
-                        'Undo', 'Redo', '-',
-                        'Find', 'SelectAll', 'Format', 'Font', 'FontSize',
-                        'base64image',
-                    ],
-                ],
-            ],
-        ],
+    <?=$form->field($model, 'desciption')->widget(CKEditor::className(), ['options' => ['rows' => 6,'class' => 'from-control'],'preset' => 'full',
+        
     ]);?>
 
     <div class="form-group">

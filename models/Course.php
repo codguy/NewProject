@@ -45,13 +45,14 @@ class Course extends \yii\db\ActiveRecord
         return [
             [
                 [
-                    'name'
+                    'name',
+                    'desciption',
+                    'dificulty'
                 ],
                 'required'
             ],
             [
                 [
-                    'dificulty',
                     'trainer_id',
                     'created_by_id'
                 ],

@@ -51,51 +51,39 @@ use yii\helpers\Html;
                         'url' => [
                             '/gii'
                         ],
-                        'target' => '_blank'
+                        'target' => '_blank',
+                        'visible' => Users::isAdmin()
                     ],
                     [
-                        'label' => 'Modules',
-                        'header' => true
+                        'label' => 'Add users',
+                        'url' => [
+                            'user/create'
+                        ],
+                        'iconStyle' => 'fas fa-user',
+                        'visible' => Users::isAdmin() || Users::isManager()
+                    ],
+                        
+                    [
+                        'label' => 'All users',
+                        'url' => [
+                            'user/index'
+                        ],
+                        'iconStyle' => 'fas fa-users'
                     ],
                     [
-                        'label' => 'Users',
-                        'icon' => 'user',
-                        'items' => [
-                            [
-                                'label' => 'Add',
-                                'url' => [
-                                    'user/create'
-                                ],
-                                'iconStyle' => 'fas fa-plus'
-                            ],
-                            [
-                                'label' => 'Show',
-                                'url' => [
-                                    'user/index'
-                                ],
-                                'iconStyle' => 'fas fa-table'
-                            ]
-                        ]
+                        'label' => 'Create course',
+                        'url' => [
+                            'course/create'
+                        ],
+                        'iconStyle' => 'fas fa-plus',
+                        'visible' => Users::isTrainer()
                     ],
                     [
                         'label' => 'Courses',
-                        'icon' => 'fa fa-desktop',
-                        'items' => [
-                            [
-                                'label' => 'Add',
-                                'url' => [
-                                    'course/create'
-                                ],
-                                'iconStyle' => 'fas fa-plus'
-                            ],
-                            [
-                                'label' => 'Show',
-                                'url' => [
-                                    'course/index'
-                                ],
-                                'iconStyle' => 'fas fa-table'
-                            ]
-                        ]
+                        'url' => [
+                            'course/index'
+                        ],
+                        'iconStyle' => 'fas fa-desktop'
                     ]
                 ]
             ]);

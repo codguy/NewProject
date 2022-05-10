@@ -32,14 +32,13 @@ use dosamigos\ckeditor\CKEditor;
     ?>
 
     <div class="col-4 float-left">
-		<img id="file-ip-1-preview" height="200px;" /><br /> 
+		<img id="file-ip-1-preview" height="150px;" /><br /> 
 		<label for="file-ip-1" class="btn btn-primary">Upload Image</label>
     	<?= $form->field($model, 'image', ['template' => '{input}'])->fileInput(['onchange'=>"showPreview(event);", 'id'=>"file-ip-1", 'class'=>'form-input d-none' ])?>
     </div>
 	<div class="col-8 float-left">
         <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
         <?= $form->field($model, 'dificulty')->textInput(['type'=>'range', 'min' => 1, 'max' => 3]) ?>
-        <?= $form->field($model, 'trainer_id')->dropDownList($model->getTrainerOption()) ?>
     </div>
 
     <?=$form->field($model, 'desciption')->widget(CKEditor::className(), ['options' => ['rows' => 6,'class' => 'from-control'],'preset' => 'advanced',

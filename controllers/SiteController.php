@@ -12,6 +12,7 @@ use app\models\ContactForm;
 use app\models\Notification;
 use app\models\Users;
 use yii\web\UploadedFile;
+use app\models\Feed;
 
 class SiteController extends Controller
 {
@@ -68,7 +69,12 @@ class SiteController extends Controller
             $this->layout = 'blank2';
             return $this->render('home');
         }
-        return $this->render('index');
+//         $searchModel = new Feed();
+//         $dataProvider = $searchModel->search();
+        
+        return $this->render('index', [
+//             'dataProvider' => $dataProvider
+        ]);
     }
 
     /**

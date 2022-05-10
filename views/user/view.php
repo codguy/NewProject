@@ -337,7 +337,7 @@ body {
                         $msg = ! empty($following) ? 'Unfollow' : 'Follow';
                         $btn = ! empty($following) ? 'btn-outline-info' : 'btn-primary';
                         $delete = (Yii::$app->user->identity->roll_id != Users::ROLE_ADMIN || Yii::$app->user->identity->id == $model->id) ? 'd-none' : '';
-                        $update = (Yii::$app->user->identity->roll_id > Users::isManager()) ? 'd-none' : '';
+                        $update = (Users::isAdmin() || Users::isManager() || Users::isSelf($model->id)) ? '' : 'd-none';
                         ?>
                     
                       <p class="text-secondary mb-1"><span class="followers-count"><?= $followers ?></span> followers</p>

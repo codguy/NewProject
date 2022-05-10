@@ -13,9 +13,10 @@ use app\models\User;
 			href="#" role="button"><i class="fas fa-bars"></i></a></li>
 		<li class="nav-item d-none d-sm-inline-block"><a
 			href="<?=\yii\helpers\Url::home()?>" class="nav-link">Home</a></li>
+		<?php if(false){ ?>
 		<li class="nav-item d-none d-sm-inline-block"><a href="#"
 			class="nav-link">Contact</a></li>
-		
+		<?php } ?>
 	</ul>
 
 	<!-- SEARCH FORM -->
@@ -56,7 +57,8 @@ use app\models\User;
 			</div></li>
 
 		<!-- Messages Dropdown Menu -->
-		<li class="nav-item dropdown"><a class="nav-link"
+		<?php if(false){?>
+			<li class="nav-item dropdown"><a class="nav-link"
 			data-toggle="dropdown" href="#"> <i class="far fa-comments"></i> <span
 				class="badge badge-danger navbar-badge">3</span>
 		</a>
@@ -114,6 +116,7 @@ use app\models\User;
 				<div class="dropdown-divider"></div>
 				<a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
 			</div></li>
+			<?php }?>
 		<!-- Notifications Dropdown Menu -->
 		<li class="nav-item dropdown">
 		<?php if (!Yii::$app->user->isGuest) {?>
@@ -130,7 +133,7 @@ use app\models\User;
                 ?>
               <div class="dropdown-divider"></div>
 					<a href="#" class="dropdown-item"> <i
-						class="fas fa-<?=$notification->icon ?> mr-1 ml-n2 btn btn-outline-<?=$color?> btn-sm"></i> <?= $notification->title ?>  
+						class="fa fa-<?=$notification->icon ?> mr-1 ml-n2 text-<?=$color?>"></i> <?= $notification->title ?>  
                   <span class="float-right text-muted text-sm" style="font-size: 0.6rem"><?= $notification->getTime() ?></span>
 					</a>
               <?php } ?>
@@ -148,12 +151,6 @@ use app\models\User;
 			<div class="dropdown-menu dropdown-menu-right">
                 <?= Html::a('Logout <i class="fas fa-sign-out-alt"></i>', ['/site/logout'], ['data-method' => 'post', 'class' => 'nav-link']) ?>
             </div></li>
-		<li class="nav-item"><a class="nav-link" data-widget="fullscreen"
-			href="#" role="button"> <i class="fas fa-expand-arrows-alt"></i>
-		</a></li>
-		<li class="nav-item"><a class="nav-link" data-widget="control-sidebar"
-			data-slide="true" href="#" role="button"> <i class="fas fa-th-large"></i>
-		</a></li>
 	</ul>
 </nav>
 <!-- /.navbar -->

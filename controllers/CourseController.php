@@ -75,6 +75,7 @@ class CourseController extends Controller
         $model = new Course();
 
         if ($this->request->isPost) {
+            $model->load($this->request->post());
             $model->created_on = date('Y-m-d H:i:s');
             $model->updated_on = date('Y-m-d H:i:s');
             $model->created_by_id = ! empty(\Yii::$app->user->id) ? \Yii::$app->user->id : Users::ROLE_ADMIN;
@@ -83,7 +84,7 @@ class CourseController extends Controller
                 $model->image = UploadedFile::getInstance($model, 'image');
                 $model->image = $model->upload();
             }
-            if ($model->load($this->request->post()) && $model->save(false)) {
+            if ($model->save(false)) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
@@ -195,9 +196,7 @@ class CourseController extends Controller
             $model->updated_on = date('Y-m-d H:i:s');
             $model->created_by_id = \Yii::$app->user->id;
             if ($model->save(false)) {
-                echo '<pre>';
-                print_r($model);die;
-                return $this->redirect(['view', 'id' => $this->id]);
+                return true;
             }
         }
     }

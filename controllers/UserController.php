@@ -11,6 +11,10 @@ use app\models\Notification;
 use app\models\SocialLink;
 use app\models\Follow;
 use app\models\Skill;
+use yii\filters\AccessControl;
+use app\components\AcessRuules;
+use app\models\Feed;
+use app\models\Like;
 
 /**
  * UserController implements the CRUD actions for Users model.
@@ -24,16 +28,38 @@ class UserController extends Controller
      */
     public function behaviors()
     {
-        return array_merge(parent::behaviors(), [
+        return [
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => [
-                        'POST'
+                        'post'
                     ]
                 ]
-            ]
-        ]);
+            ],
+            /* 'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'ruleConfig' => [
+                    'class' => \app\models\AcessRuules::className()
+                ],
+                'only' => [
+                    'index',
+                    'create',
+                    'update',
+                    'view'
+                ],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => [
+                            Users::isAdmin(),
+                            Users::isManager(),
+                            Users::isTrainer()
+                        ]
+                    ]
+                ]
+            ] */
+        ];
     }
 
     /**
@@ -85,8 +111,10 @@ class UserController extends Controller
                 $model->state_id = Users::STATE_ACTIVE;
                 $model->authKey = 'test' . $obj . '.key';
                 $model->accessToken = $obj . '-token';
-                $model->profile_picture = UploadedFile::getInstance($model, 'profile_picture');
-                $model->upload();
+                if(UploadedFile::getInstance($model, 'profile_picture') != null){
+                    $model->profile_picture = UploadedFile::getInstance($model, 'profile_picture');
+                    $model->profile_picture = $model->upload();
+                }
                 $transaction = \Yii::$app->db->beginTransaction();
                 try {
                     if ($model->save(false)) {
@@ -133,12 +161,16 @@ class UserController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+        $image = $model->profile_picture;
         if ($this->request->isPost && $model->load($this->request->post())) {
-            $model->profile_picture = UploadedFile::getInstance($model, 'profile_picture');
-            $model->upload();
+            if(UploadedFile::getInstance($model, 'profile_picture') != null){
+                $model->profile_picture = UploadedFile::getInstance($model, 'profile_picture');
+                $model->profile_picture = $model->upload();
+            }
+            else{
+                $model->profile_picture = $image;
+            }
             $model->updated_on = date('Y-m-d H:i:s');
-            // echo '<pre>';var_dump($model);die;
             if ($model->save(false)) {
                 $title = 'Updated : ' . $model->username;
                 $type = Notification::TYPE_UPDATED;
@@ -315,7 +347,7 @@ class UserController extends Controller
             $model->save();
         }
         $result = Users::getSkillBadge($model->skill, $model->level);
-//         print_r($result);die()
+        // print_r($result);die()
         return $result;
     }
 
@@ -323,5 +355,43 @@ class UserController extends Controller
     {
         $this->enableCsrfValidation = false;
         return parent::beforeAction($action);
+    }
+    
+    public function actionCreateFeed(){
+        $model = new Feed();
+        $post = $this->request->post();
+        if (!empty($post)) {
+            $model->title = $post['title'];
+            $model->desciption = $post['message'];
+            $model->state_id = Users::STATE_ACTIVE;
+            $model->created_by_id = \Yii::$app->user->id;
+            $model->created_on = date('Y-m-d H:i:s');
+            $model->updated_on = date('Y-m-d H:i:s');
+            $model->save();
+        }
+    }
+    
+    public function actionLikeFeed(){
+        $model = new Like();
+        $post = $this->request->post();
+        if (!empty($post)) {
+            $another = Like::findOne([
+                'model' => $post['model'],
+                'model_id' => $post['id'],
+                'user_id' => \Yii::$app->user->id
+            ]);
+            if(!empty($another)){
+                $another->delete();
+                return true;
+            }
+            $model->model = $post['model'];
+            $model->model_id = $post['id'];
+            $model->user_id = \Yii::$app->user->id;
+            $model->created_on = date('Y-m-d H:i:s');
+            $model->updated_on = date('Y-m-d H:i:s');
+            if ($model->save()) {
+                return true;
+            }
+        }
     }
 }

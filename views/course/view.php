@@ -4,6 +4,7 @@ use yii\widgets\DetailView;
 use app\models\Users;
 use app\models\Chapter;
 use yii\helpers\Url;
+use app\models\Discussion;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Course */
@@ -56,60 +57,59 @@ $this->params['breadcrumbs'][] = $this->title;
 							<?php echo Html::button('send',[ "id"=>"discuss-btn", "class"=>"btn btn-secondary float-right", 'data-id'=>$model->id, 'data-key'=>get_class($model)])?>
 						</form>
 						<!-- Comment with nested comments-->
-						<div class="d-flex mb-4">
+<!-- 						<div class="d-flex mb-4"> -->
 							<!-- Parent comment-->
-							<div class="flex-shrink-0">
-								<img class="rounded-circle"
-									src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." />
-							</div>
-							<div class="ms-3">
-								<div class="fw-bold">Commenter Name</div>
-								If you're going to lead a space frontier, it has to be
-								government; it'll never be private enterprise. Because the space
-								frontier is dangerous, and it's expensive, and it has
-								unquantified risks.
+<!-- 							<div class="flex-shrink-0"> -->
+<!-- 								<img class="rounded-circle" -->
+<!-- 									src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /> -->
+<!-- 							</div> -->
+<!-- 							<div class="ms-3"> -->
+<!-- 								<div class="fw-bold">Commenter Name</div> -->
+<!-- 								If you're going to lead a space frontier, it has to be -->
+<!-- 								government; it'll never be private enterprise. Because the space -->
+<!-- 								frontier is dangerous, and it's expensive, and it has -->
+<!-- 								unquantified risks. -->
 								<!-- Child comment 1-->
-								<div class="d-flex mt-4">
-									<div class="flex-shrink-0">
-										<img class="rounded-circle"
-											src="https://dummyimage.com/50x50/ced4da/6c757d.jpg"
-											alt="..." />
-									</div>
-									<div class="ms-3">
-										<div class="fw-bold">Commenter Name</div>
-										And under those conditions, you cannot establish a
-										capital-market evaluation of that enterprise. You can't get
-										investors.
-									</div>
-								</div>
-								<!-- Child comment 2-->
-								<div class="d-flex mt-4">
-									<div class="flex-shrink-0">
-										<img class="rounded-circle"
-											src="https://dummyimage.com/50x50/ced4da/6c757d.jpg"
-											alt="..." />
-									</div>
-									<div class="ms-3">
-										<div class="fw-bold">Commenter Name</div>
-										When you put money directly to a problem, it makes a good
-										headline.
-									</div>
-								</div>
-							</div>
-						</div>
+<!-- 								<div class="d-flex mt-4"> -->
+<!-- 									<div class="flex-shrink-0"> -->
+<!-- 										<img class="rounded-circle" -->
+<!-- 											src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" -->
+<!-- 											alt="..." /> -->
+<!-- 									</div> -->
+<!-- 									<div class="ms-3"> -->
+<!-- 										<div class="fw-bold">Commenter Name</div> -->
+<!-- 										And under those conditions, you cannot establish a -->
+<!-- 										capital-market evaluation of that enterprise. You can't get -->
+<!-- 										investors. -->
+<!-- 									</div> -->
+<!-- 								</div> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
 						<!-- Single comment-->
-						<div class="d-flex">
+						<?php 
+						      $comments = Discussion::find()->where([
+						          'model' => get_class($model),
+						          'model_id' => $model->id
+						      ]);
+						      
+						      if(!empty($comments)){
+						          foreach ($comments->each() as $comment){
+						              $person = Users::findOne($comment->user_id);
+						?>
+						<div class="d-flex m-3">
 							<div class="flex-shrink-0">
 								<img class="rounded-circle"
-									src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." />
+									src="<?php echo $person->getImageUrl() ?>" height="50px" width="50px" alt="..." style="overflow:hidden;object-fit:cover;" />
 							</div>
-							<div class="ms-3">
-								<div class="fw-bold">Commenter Name</div>
-								When I look at the universe and all the ways the universe wants
-								to kill us, I find it hard to reconcile that with statements of
-								beneficence.
+							<div class="ms-3 ml-3">
+								<div class="fw-bold"><span class="font-weight-bold"><?php echo $person->username ?></span><small class="font-weight-light ml-2"><?php echo date('M d, Y H:i A', strtotime($comment->created_on)) ?></small></div>
+								<?php echo $comment->message ?>
 							</div>
 						</div>
+						<?php 
+						          }
+						      }
+						?>
 					</div>
 				</div>
 			</section>
@@ -118,8 +118,12 @@ $this->params['breadcrumbs'][] = $this->title;
 		<div class="col-lg-4">
 			<!-- Search widget-->
 			<p>
-                <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-                <?=Html::a(Yii::t('app', 'Delete'), ['delete','id' => $model->id], ['class' => 'btn btn-danger','data' => ['confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),'method' => 'post']])?>
+			<?php 
+			$toSelf = Users::isSelf($model->trainer_id)  ? '' : 'd-none';
+			$to_admin = Users::isAdmin()||Users::isSelf($model->trainer_id) ? '' : 'd-none';
+			?>
+                <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary '.$to_admin]) ?>
+                <?=Html::a(Yii::t('app', 'Delete'), ['delete','id' => $model->id], ['class' => 'btn btn-danger '.$to_admin,'data' => ['confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),'method' => 'post']])?>
             </p>
 			<div class="card mb-4">
 				<div class="card-header">Search</div>
@@ -143,11 +147,12 @@ $this->params['breadcrumbs'][] = $this->title;
 						$chapters = Chapter::find()->where([
 						    'course_id' => $model->id
 						]);
-						
+						echo !empty($chapters->count()) ? '' : 'No chapter added';
+						$count =1;
 						foreach ($chapters->each() as $chapter){
-						    echo Html::a('<li style="width: 200px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">'.$chapter->title.'</li>', ['course/view-chapter', 'id'=> $model->id]);
+						    echo Html::a('<li style="width: 200px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">Chapter : '.$count++.' '.$chapter->title.'</li>', ['course/view-chapter', 'id'=> $chapter->id]);
 						}
-						echo Html::a('Add Chapters', ['course/add-chapter', 'id' => $model->id], ['class' => 'badge btn btn-outline-primary']);
+						echo Html::a('Add Chapters', ['course/add-chapter', 'id' => $model->id], ['class' => 'badge btn btn-outline-primary '.$toSelf]);
 						?>
 						</ul>
 					</div>
@@ -164,7 +169,6 @@ $this->params['breadcrumbs'][] = $this->title;
 	</div>
 </div>
 <script>
-;
 $(document).on('click', '#discuss-btn', function(){
 	var msg = $('#discuss').val();
 	var model_id = $(this).attr('data-id');

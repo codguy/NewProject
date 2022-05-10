@@ -36,7 +36,9 @@ class Chapter extends \yii\db\ActiveRecord
         return [
             [
                 [
-                    'title'
+                    'title',
+                    'desciption',
+                    'dificulty'
                 ],
                 'required'
             ],
