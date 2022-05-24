@@ -27,12 +27,13 @@ use phpDocumentor\Reflection\PseudoTypes\True_;
  */
 class Users extends \yii\db\ActiveRecord implements IdentityInterface
 {
+
     const BEGINER = 0;
 
     const INTERMEDIATE = 1;
-    
+
     const ADVANCED = 2;
-    
+
     const ROLE_ADMIN = 1;
 
     const ROLE_MANAGER = 2;
@@ -40,6 +41,8 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
     const ROLE_TRAINER = 3;
 
     const ROLE_STUDENT = 4;
+    
+    const STATE_ZERO = 0;
 
     const STATE_ACTIVE = 1;
 
@@ -283,12 +286,20 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
 
     public function getRoleOption()
     {
-        $list = array(
-            Users::ROLE_ADMIN => 'Admin',
-            Users::ROLE_MANAGER => 'Manager',
-            Users::ROLE_TRAINER => 'Trainer',
-            Users::ROLE_STUDENT => 'Student'
-        );
+        if (\Yii::$app->controller->action->id == 'sign-up') {
+            $list = array(
+                Users::ROLE_TRAINER => 'Trainer',
+                Users::ROLE_STUDENT => 'Student'
+            );
+        }
+        else{
+            $list = array(
+                Users::ROLE_ADMIN => 'Admin',
+                Users::ROLE_MANAGER => 'Manager',
+                Users::ROLE_TRAINER => 'Trainer',
+                Users::ROLE_STUDENT => 'Student'
+            );
+        }
         return $list;
     }
 
@@ -321,12 +332,12 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
         $profile = $model->getImage() . " " . $model->username;
         return $profile;
     }
-    
+
     public function getName()
     {
         return $this->username;
     }
-    
+
     public function getBadge($id)
     {
         $list = array(
@@ -334,50 +345,55 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
             Users::STATE_INACTIVE => 'danger',
             Users::STATE_FREEZE => 'primary',
             Users::STATE_UPCOMING => 'info',
-            Users::STATE_DELETED => 'dark',
+            Users::STATE_DELETED => 'dark'
         );
         return $list[$id];
     }
-    
-    public static function getSkillBadge($data,$color){
+
+    public static function getSkillBadge($data, $color)
+    {
         $colors = array(
             Users::BEGINER => 'secondary',
             Users::INTERMEDIATE => 'primary',
-            Users::ADVANCED => 'success',
+            Users::ADVANCED => 'success'
         );
-        return '<span class="m-1 p-2 badge badge-'.$colors[$color].'">'.$data.'</span>';
+        return '<span class="m-1 p-2 badge badge-' . $colors[$color] . '">' . $data . '</span>';
     }
-    
-    public static function isAdmin($id = false) {
+
+    public static function isAdmin($id = false)
+    {
         $user = self::findOne([
-            'id' => !empty($id) ? $id : \Yii::$app->user->identity->id
+            'id' => ! empty($id) ? $id : \Yii::$app->user->identity->id
         ]);
         return ($user->roll_id == self::ROLE_ADMIN) ? true : false;
     }
-    
-    public static function isManager($id = false) {
+
+    public static function isManager($id = false)
+    {
         $user = self::findOne([
-            'id' => !empty($id) ? $id : \Yii::$app->user->identity->id
+            'id' => ! empty($id) ? $id : \Yii::$app->user->identity->id
         ]);
         return ($user->roll_id == self::ROLE_MANAGER) ? true : false;
     }
-    
-    public static function isTrainer($id = false) {
+
+    public static function isTrainer($id = false)
+    {
         $user = self::findOne([
-            'id' => !empty($id) ? $id : \Yii::$app->user->identity->id
+            'id' => ! empty($id) ? $id : \Yii::$app->user->identity->id
         ]);
         return ($user->roll_id == self::ROLE_TRAINER) ? true : false;
     }
-    
-    public static function isStudent($id = false) {
+
+    public static function isStudent($id = false)
+    {
         $user = self::findOne([
-            'id' => !empty($id) ? $id : \Yii::$app->user->identity->id
+            'id' => ! empty($id) ? $id : \Yii::$app->user->identity->id
         ]);
         return ($user->roll_id == self::ROLE_STUDENT) ? true : false;
     }
-    
-    public static function isSelf($id = false) {
+
+    public static function isSelf($id = false)
+    {
         return ($id == \Yii::$app->user->identity->getId()) ? true : false;
     }
-    
 }

@@ -21,8 +21,14 @@ $msg = ! empty($following) ? 'Unfollow' : 'Follow';
 $btn = ! empty($following) ? 'btn-outline-info' : 'btn-primary';
 ?>
 
-<div class="col-md-6 col-xl-4 float-left user" id="<?php echo $model->id ?>">                       
+<div class="col-md-6 col-xl-4 float-left user" id="<?php echo $model->id ?>"> 
+
   <div class="card">
+  <?php if (strtotime($model->created_on) >= strtotime('now')-3600){ ?>
+	<div class="ribbon-wrapper ribbon-lg">
+		<div class="ribbon bg-primary">New User</div>
+	</div>
+<?php }?>                      
     <div class="card-body">
       <?php echo Html::a(' 
       <div class="media align-items-center"><img class="profile_pic" src="'. $model->getImageUrl().'" style="width: 150px;height:150px; overflow:hidden;object-fit:cover;">

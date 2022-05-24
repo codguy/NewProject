@@ -12,8 +12,8 @@ use yii\widgets\ActiveForm;
 		<div class="col-sm-11 mx-auto d-table h-100">
 			<div class="d-table-cell align-middle">
 				<div class="text-center mt-4">
-					<h1 class="h1">Welcome</h1>
-					<p class="lead">Create a new acconut here</p>
+					<h1 class="h1" style="font-size:4rem;">Welcome</h1>
+					<p class="lead" style="font-size:1.6rem;">Create a new acconut here</p>
 				</div>
 				<?php
                     $form = ActiveForm::begin([
@@ -72,8 +72,8 @@ use yii\widgets\ActiveForm;
                                 </div>
 								<div class="mb-3">
                                  <?= $form->field($model, 'gender',['template' => '{label}'])->textInput() ?>
-                                <?= $form->field($model, 'gender',['template' => '<div class ="Radio-btn">{input}Male</div>'])->textInput(['type'=>'radio', 'value' => 'Male', 'class' => 'gender', 'id' => 'Male']) ?>
-                                <?= $form->field($model, 'gender', ['template' => '<div class ="Radio-btn">{input}Female</div>'])->textInput(['type'=>'radio', 'value' => 'Female', 'class' => 'gender', 'id' => 'Female']) ?>
+                                <?= $form->field($model, 'gender',['template' => '<div class ="Radio-btn">{input}Male</div>'])->textInput(['type'=>'radio', 'value' => 'Male', 'class' => 'gender mr-2', 'id' => 'Male']) ?>
+                                <?= $form->field($model, 'gender', ['template' => '<div class ="Radio-btn">{input}Female</div>'])->textInput(['type'=>'radio', 'value' => 'Female', 'class' => 'gender ml-4 mr-2', 'id' => 'Female']) ?>
                                 </div>
 								<div class="mb-3">
 									<img style="display: none" class="profile_pic" width="150"
@@ -86,7 +86,8 @@ use yii\widgets\ActiveForm;
 						<div class="text-center mt-3">
 
 							<div class="form-group">
-                                    <?= Html::submitButton(Yii::t('app', 'Sign Up'), ['class' => 'shadow-sm bg-body rounded btn btn-primary login-btns']) ?>
+                                    <?= Html::submitButton(Yii::t('app', 'Sign Up'), ['class' => 'shadow-sm bg-body rounded btn btn-primary login-btns m-4']) ?>
+                                    <?= Html::a(Yii::t('app', 'Sign In'), ['site/login'],['class' => 'shadow-sm bg-body rounded btn btn-secondary login-btns m-4']) ?>
                                 </div>
 						</div>
                         <?php ActiveForm::end(); ?>

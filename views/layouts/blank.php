@@ -23,7 +23,8 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed2010/admi
     <?php $this->head() ?>
     <style>
     body {
-    	background-image: linear-gradient(to right bottom, rgb(6, 85, 187), rgb(0, 133, 231), rgb(0, 174, 224), rgb(0, 208, 172), rgb(18, 235, 93));
+    	background: rgb(29,222,110);
+        background: radial-gradient(circle, rgba(29,222,110,1) 0%, rgba(46,142,217,1) 62%); 
     	height: auto;
     	color: white;
     }
@@ -39,7 +40,7 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed2010/admi
     }
     </style>
 </head>
-<body class="hold-transition sidebar-mini" style=" background-image: linear-gradient(to right bottom, #0655bb, #0085e7, #00aee0, #00d0ac, #12eb5d);">
+<body class="hold-transition sidebar-mini">
 <?php $this->beginBody() ?>
 
 <div class="content">

@@ -109,7 +109,7 @@ class UserController extends Controller
                 $model->updated_on = date('Y-m-d H:i:s');
                 $model->created_by_id = ! empty(\Yii::$app->user->id) ? \Yii::$app->user->id : Users::ROLE_ADMIN;
                 $model->state_id = Users::STATE_ACTIVE;
-                $model->authKey = 'test' . $obj . '.key';
+                $model->authKey = 'test' . $obj;
                 $model->accessToken = $obj . '-token';
                 if(UploadedFile::getInstance($model, 'profile_picture') != null){
                     $model->profile_picture = UploadedFile::getInstance($model, 'profile_picture');
@@ -117,7 +117,7 @@ class UserController extends Controller
                 }
                 $transaction = \Yii::$app->db->beginTransaction();
                 try {
-                    if ($model->save(false)) {
+                    if ($model->save()) {
                         $title = 'New ' . $model->getRole($model->roll_id);
                         $type = Notification::TYPE_NEW;
                         $users = Users::find()->where([
@@ -133,6 +133,8 @@ class UserController extends Controller
                             'view',
                             'id' => $model->id
                         ]);
+                    }else{
+                        print_r($model->getErrors());
                     }
                     $transaction->commit();
                 } catch (\Exception $e) {
@@ -361,13 +363,27 @@ class UserController extends Controller
         $model = new Feed();
         $post = $this->request->post();
         if (!empty($post)) {
-            $model->title = $post['title'];
-            $model->desciption = $post['message'];
+            $model->load($post);
+            if(UploadedFile::getInstance($model, 'image') != null){
+                $model->image = UploadedFile::getInstance($model, 'image');
+                $model->image = $model->upload();
+            }
             $model->state_id = Users::STATE_ACTIVE;
             $model->created_by_id = \Yii::$app->user->id;
             $model->created_on = date('Y-m-d H:i:s');
             $model->updated_on = date('Y-m-d H:i:s');
-            $model->save();
+            if($model->save()){
+                $title = 'New Post';
+                $type = Notification::TYPE_NEW;
+                $followers = Follow::find()->where([
+                    'model_id' => $model->created_by_id,
+                    'model' => get_class(new Users())
+                ]);
+                foreach ($followers->each() as $follower){
+                    Notification::createNofication($title, $type, $model, $follower->user_id, 'feed');
+                }
+                return $this->redirect('site/index');
+            }
         }
     }
     

@@ -37,7 +37,7 @@ use yii\widgets\ActiveForm;
 						<div class="col-6" style="float: left">
 							<div class="m-sm-4">
 								<div class="text-center">
-									<label class="fa fa-picture-o" for="file-ip-1">
+									<label for="file-ip-1">
         								<?php
                                             if (! empty($model->profile_picture)) {
                                                 echo '<img src=' . $model->getImageUrl() . ' alt="Charles Hall" class="profile_pic" width="150" height="150"  id="file-ip-1-preview"/>';

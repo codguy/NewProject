@@ -13,6 +13,8 @@ use app\models\Notification;
 use app\models\Users;
 use yii\web\UploadedFile;
 use app\models\Feed;
+use PHPUnit\Exception;
+use yii\base\ErrorException;
 
 class SiteController extends Controller
 {
@@ -71,9 +73,9 @@ class SiteController extends Controller
         }
 //         $searchModel = new Feed();
 //         $dataProvider = $searchModel->search();
-        
+        $model = new Feed();
         return $this->render('index', [
-//             'dataProvider' => $dataProvider
+            'model' => $model
         ]);
     }
 
@@ -119,6 +121,7 @@ class SiteController extends Controller
      */
     public function actionContact()
     {
+        $this->layout = 'blank2';
         $model = new ContactForm();
         if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
             Yii::$app->session->setFlash('contactFormSubmitted');
@@ -153,8 +156,10 @@ class SiteController extends Controller
                 $model->state_id = Users::STATE_ACTIVE;
                 $model->authKey = 'test' . $obj . '.key';
                 $model->accessToken = $obj . '-token';
-                $model->profile_picture = UploadedFile::getInstance($model, 'profile_picture');
-                $model->upload();
+                if(UploadedFile::getInstance($model, 'profile_picture') != null){
+                    $model->profile_picture = UploadedFile::getInstance($model, 'profile_picture');
+                    $model->profile_picture = $model->upload();
+                }
                 $transaction = \Yii::$app->db->beginTransaction();
                 try {
                     if ($model->save(false)) {
@@ -169,8 +174,11 @@ class SiteController extends Controller
                             Notification::createNofication($title, $type, $model, $user->id, 'user');
                         }
                         Notification::createNofication('Welcome', Notification::TYPE_SUCCESS, $model, $model->id, 'user');
-                        $this->redirect([
-                            'view',
+                        $login = new LoginForm();
+                        $login->setAttributes($model->attributes);
+                        Yii::$app->user->login($model, 3600*24*30);
+                        return $this->redirect([
+                            'user/view',
                             'id' => $model->id
                         ]);
                     }

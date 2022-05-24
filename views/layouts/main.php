@@ -58,6 +58,10 @@ $this->registerJsFile('https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery
 <?php $this->endBody() ?>
 </body>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-
+<script>
+$( document ).ready(function() {
+    $('.nav-icon').removeClass('fa-circle');
+});
+</script>
 </html>
 <?php $this->endPage() ?>

@@ -127,7 +127,7 @@ use app\models\User;
 		</a>
 			<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="width: 400px;">
 				<span class="dropdown-header"><?= $notifications->count() ?> Notifications</span>
-				<div class="dropdown-item dropdown-body overflow-auto" style="width: 300px;"> 
+				<div class="dropdown-item dropdown-body overflow-auto" style="scrollbar-width: none;"> 
               <?php foreach ($notifications->each() as $notification) {
                     $color = $notification->getColor($notification->type_id);
                 ?>

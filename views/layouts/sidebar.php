@@ -46,6 +46,13 @@ use yii\helpers\Html;
                         'visible' => Yii::$app->user->isGuest
                     ],
                     [
+                        'label' => 'Home',
+                        'url' => [
+                            'site/index'
+                        ],
+                        'icon' => 'fa fa-home',
+                    ],
+                    [
                         'label' => 'Gii',
                         'icon' => 'file-code',
                         'url' => [

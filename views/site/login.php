@@ -9,8 +9,8 @@ use app\models\search\Users;
 			<div class="d-table-cell align-middle">
 
 				<div class="text-center mt-4">
-					<h1 class="h2">Welcome back</h1>
-					<p class="lead">Sign in to your account to continue</p>
+					<h1 class="h2" style="font-size:4rem;">Welcome back</h1>
+					<p class="lead" style="font-size:1.6rem;">Sign in to your account to continue</p>
 				</div>
 
 				<div class="card">
@@ -47,12 +47,13 @@ use app\models\search\Users;
 							<div class="mb-3">
 								<!-- 											<label class="form-label">Password</label> -->
 								<!-- 											<input class="form-control form-control-lg" type="password" name="password" placeholder="Enter your password" /> -->
-        					<?= $form->field($model, 'password')->passwordInput() ?>
+        						<?= $form->field($model, 'password')->passwordInput() ?>
 
-								<small> <a href="index.html" class="float-right">Forgot password?</a>
-								</small>
-							</div>
-							<div>
+    							<small> 
+    								<a href="index.html" class="float-right">Forgot password?</a>
+    							</small>
+    						</div>
+    						<div>
 											<?=$form->field($model, 'rememberMe')->checkbox(['template' => "<div class=\"offset-lg-1 col-lg-3 custom-control custom-checkbox\">{input} {label}</div>\n<div class=\"col-lg-8\">{error}</div>"])?>
 										</div>
 							<div class="text-center mt-3">
@@ -60,7 +61,8 @@ use app\models\search\Users;
 								<!-- <button type="submit" class="btn btn-lg btn-primary">Sign in</button> -->
 								<div class="form-group">
 									<div class="offset-lg-1 col-lg-11">
-                                        <?= Html::submitButton('Sign In', ['class' => 'btn btn-primary login-btns col-10', 'name' => 'login-button']) ?>
+                                        <?= Html::submitButton('Sign In', ['class' => 'btn btn-primary col-5 p-3 m-2', 'name' => 'login-button']) ?>
+                                        <?= Html::a('Sign Up',['site/sign-up'], ['class' => 'btn btn-secondary login-btns col-5 p-3 m-2']) ?>
                                     </div>
 								</div>
 							</div>

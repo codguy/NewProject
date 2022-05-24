@@ -23,8 +23,6 @@ $this->registerCssFile('@web/css/home.css', ['depends'=> [yii\web\JqueryAsset::c
           <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
           <li><a class="nav-link scrollto" href="#about">About</a></li>
           <li><a class="nav-link scrollto" href="#services">Services</a></li>
-          <li><a class="nav-link scrollto" href="#portfolio">Portfolio</a></li>
-          <li><a class="nav-link scrollto" href="#team">Team</a></li>
           <li><?php echo Html::a('Contact',['site/contact'],['class' => 'nav-link']) ?></li>
           <li><?php echo Html::a('Get Started',['site/login'],['class' => 'getstarted']) ?></li>
         </ul>
@@ -45,7 +43,7 @@ $this->registerCssFile('@web/css/home.css', ['depends'=> [yii\web\JqueryAsset::c
           <div data-aos="fade-up" data-aos-delay="600">
             <div class="text-center text-lg-start">
               
-              <?php echo Html::a('Get Started',['site/login'],['class' => 'btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center']) ?>
+              <?php echo Html::a('Get Started',['site/login'],['class' => 'btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center pt-4 pb-4']) ?>
             </div>
           </div>
         </div>
@@ -391,7 +389,7 @@ $this->registerCssFile('@web/css/home.css', ['depends'=> [yii\web\JqueryAsset::c
               <img src="images/logo.png" alt="">
               <span>Academy</span>
             </a>
-            <p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada terra videa magna derita valies darta donna mare fermentum iaculis eu non diam phasellus.</p>
+            <p>Academy is still under progress.</p>
             <div class="social-links mt-3">
               <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
               <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
@@ -406,8 +404,6 @@ $this->registerCssFile('@web/css/home.css', ['depends'=> [yii\web\JqueryAsset::c
               <li><i class="fa fa-chevron-right"></i> <a href="#">Home</a></li>
               <li><i class="fa fa-chevron-right"></i> <a href="#">About us</a></li>
               <li><i class="fa fa-chevron-right"></i> <a href="#">Services</a></li>
-              <li><i class="fa fa-chevron-right"></i> <a href="#">Terms of service</a></li>
-              <li><i class="fa fa-chevron-right"></i> <a href="#">Privacy policy</a></li>
             </ul>
           </div>
 
