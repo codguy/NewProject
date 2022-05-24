@@ -59,7 +59,7 @@ composer install
 
 it will install all the dependencies that are requiered fro running the project, make sure you are connected to the internet while while doing this step as this step require internet to install all the dependencies.
 
-Now you have to run your server and open your database and import an `SQL` file to setup your database.
+Now you have to run your server and open your database and import an `SQL` file present in [newProject/db/install.sql] to setup your database.
 
 Once the above steps are done, open your browser and search :
 
@@ -82,7 +82,7 @@ composer install
 
 it will install all the dependencies that are requiered fro running the project, make sure you are connected to the internet while while doing this step as this step require internet to install all the dependencies.
 
-Now you have to run your server and open your database and import an `SQL` file to setup your database.
+Now you have to run your server and open your database and import an `SQL` file present in [newProject/db/install.sql] to setup your database.
 
 Once the above steps are done, open your browser and search :
 
