@@ -53,15 +53,6 @@ use yii\helpers\Html;
                         'icon' => 'fa fa-home',
                     ],
                     [
-                        'label' => 'Gii',
-                        'icon' => 'file-code',
-                        'url' => [
-                            '/gii'
-                        ],
-                        'target' => '_blank',
-                        'visible' => Users::isAdmin()
-                    ],
-                    [
                         'label' => 'Add users',
                         'url' => [
                             'user/create'

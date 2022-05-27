@@ -54,7 +54,7 @@ use app\models\search\Users;
     							</small>
     						</div>
     						<div>
-											<?=$form->field($model, 'rememberMe')->checkbox(['template' => "<div class=\"offset-lg-1 col-lg-3 custom-control custom-checkbox\">{input} {label}</div>\n<div class=\"col-lg-8\">{error}</div>"])?>
+											<?=$form->field($model, 'rememberMe')->checkbox(['template' => "<div class=\"offset-lg-1 col-lg-4 ml-n1 custom-control custom-checkbox\">{input} {label}</div>\n<div class=\"col-lg-8\">{error}</div>"])?>
 										</div>
 							<div class="text-center mt-3">
 								<!-- 											<a href="index.html" class="btn btn-lg btn-primary">Sign in</a> -->

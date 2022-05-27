@@ -83,3 +83,6 @@ a.desc:after {
     outline: none;
 }
 
+.profile_pic {
+	border-radius: 50%;
+}
